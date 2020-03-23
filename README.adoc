@@ -1,0 +1,22 @@
+= Bilfinger Wartungscenter
+
+== Dokumentationen
+Dieses Projekt beinhaltet Dokumentationen im https://asciidoctor.org/docs/what-is-asciidoc/[adoc]-Format und als PDF-Versionen. Zum Generieren der PDFs wird https://www.latex-project.org/[LaTeX] verwendet. Die PDF-Versionen sind meist detaillierter und enthalten unter anderem Dokumentationen zum Quellcode und den verwendeten Algorithmen.
+
+.Aufbau der Projektstruktur
+----
+.
+├ docs
+│   ├ latex 
+│   └ pdf 
+├ public
+└ src
+----
+
+|===
+| *Pfad* | *Beschreibung*
+| `+./docs/latex+` | Hier befinden sich Quelldateien im LaTeX-Format. Aus ihnen werden die PDF-Dateien erzeugt.
+| `+./docs/pdf+` | Hier befinden sich die aus den Quelldateien erzeugen PDF-Dateien.
+| `+./public+` | Hier befinden sich alle Dateien, die öffentlich zugänglich sind und nicht vom Kompilierungsprozess der Anwendung beteiligt sind. 
+| `+./src+` | Hier befinden sich alle Quelldateien der React-Anwendung, die während der Entwicklung kompiliert bzw. gepackt werden.
+|===
