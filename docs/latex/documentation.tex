@@ -3,8 +3,84 @@
 \subtitle{Bilfinger Wartungscenter}
 \author{Florian Hansen}
 
+\usepackage[colorlinks,urlcolor=blue, linkcolor=black]{hyperref}
+\usepackage[inline]{enumitem}
+\usepackage{setspace}
+\usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}
+
+\setlist{nosep,before=\vspace{\baselineskip},after=\vspace{\baselineskip}}
+\setlist[enumerate]{label*=\arabic*.}
+\newcommand{\itemh}[1]{{\bfseries\large\item #1}}
+
+\onehalfspacing
 
 \begin{document}
   \maketitle
+
+  \chapter{Einleitung}
+  Das \textit{Bilfinger Wartungscenter} ist eine Web-Anwendung, die eine Verwaltung von Wartungsarbeiten ermöglicht.
+  Hierfür stehen dem Benutzer verschiedene Funktionen zur Verfügung, um Wartungen einzusehen, zu bearbeiten und
+  Berichte erstellen zu lassen. Das Ziel ist es, dem Benutzer einen guten Überblick über anstehende und bereits
+  getätigte Wartungsarbeiten zu geben und ihm damit einen Großteil der Verwaltungsarbeit abzunehmen.
+
+  \chapter{Anforderungen}
+  In diesem Kapitel sollen die Anforderungen an das zu entwickelnde System analysiert und definiert werden. Hierbei wird
+  zwischen allgemeinen, funktionalen und nicht-funktionalen Anforderungen unterschieden.
+
+  \section{Allgemeine Anforderungen}
+  \begin{enumerate}
+    \itemh{Software-Architektur}
+    \begin{enumerate}
+      \item Die Anwendung soll mehrere Microservices erhalten, die komplett unabhängig voneinander arbeiten.
+      \item Die Microservices sollen mithilfe von NodeJS / Express entwickelt werden.
+      \item Die Microservices sollen mithilfe von Schnittstellen (APIs) kommunizieren.
+      \item Die APIs sollen im RESTful-Design implementiert werden.
+      \item Die Clientanwendung soll mithilfe von JavaScript / React entwickelt werden.
+      \item Die Clientanwendung greift mithilfe der definierten RESTful-Schnittstellen auf die verschiedenen
+        Microservices zu.
+    \end{enumerate}
+  \end{enumerate}
+
+  \section{Funktionale Anforderungen}
+  \begin{enumerate}
+    \itemh{Benutzerverwaltung}
+    \begin{enumerate}
+      \item Benutzer sollen sich anmelden können.
+      \item Benutzer sollen über eine Rolle verfügen.
+      \item Mögliche Rollen sollen sein: Verwalter, Wartungskraft.
+      \item Benutzer sollen einen Benutzernamen, einen Vornamen, einen Nachnamen, eine eindeutige Identifikationsnummer
+        (ID) und eine E-Mail-Adresse besitzen.
+      \item Benutzer sollen nur manuell registriert werden können.
+      \item Benutzer sollen ihre Daten, mit Ausnahme der ID, anpassen können.
+    \end{enumerate}
+
+    \itemh{Microservice: Authentifizierung}
+    \begin{enumerate}
+      \item Es soll möglich sein, sich mithilfe seiner Benutzerkennung und seines Passworts anzumelden.
+      \item Nach einer erfolgreichen Anmeldung soll es möglich sein, sich mithilfe eines Tokens zu authentifizieren.
+      \item Die Tokens sollen als Json Web Token (JWT)\footnote{\url{https://jwt.io/}} implementiert werden.
+      \item Ein Token soll nur für eine bestimmte Zeit verwendet werden können.
+      \item Nach Ablauf der Lebenszeit eines Tokens, muss sich der Benutzer erneut im System anmelden und einen neuen
+        anfordern, um sich authentifizieren zu können.
+    \end{enumerate}
+
+    \itemh{Microservice: Wartungen}
+    \begin{enumerate}
+      \item Dieser Dienst soll nur authentifizierten Benutzern zur Verfügung stehen.
+      \item Benutzer sollen Wartungen abrufen können. Dabei werden ihnen nur diejenigen zur Verfügung gestellt, die
+        ihnen zugeteilt wurden.
+      \item Nur Benutzer der Rolle \textit{Verwalter} sollen neue Wartungen erstellen können.
+      \item Es soll als Verwalter möglich sein, Wartungen zu bearbeiten und zu verändern.
+      \item Es soll als Verwalter möglich sein, Wartungen Wartungskräften zuzuornden.
+      \item Es soll als Verwalter möglich sein, Kunden anzulegen.
+      \item Es soll als Verwalter möglich sein, Kunden zu bearbeiten.
+      \item Es soll als Verwalter möglich sein, Kunden zu löschen.
+      \item Kunden sollen von Verwaltern Wartungen zugewiesen werden können.
+      \item Ein Kunde besitzt einen Namen, eine Ansprechsperson (Vor- und Nachname, Telefonnummer, E-Mail, ...) und eine
+        Anschrift (Ort, PLZ, Straße)
+    \end{enumerate}
+  \end{enumerate}
+
+  \section{Nicht-funktionale Anforderungen}
 \end{document}
