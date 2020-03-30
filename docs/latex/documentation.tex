@@ -89,8 +89,75 @@
         Anschrift (Ort, PLZ, Straße)
     \end{enumerate}
 
-    
+    \itemh{Benutzeroberfläche: Anmeldung}
+    \begin{enumerate}
+      \item Wenn der Benutzer nicht angemeldet ist, soll immer die Anmeldung aufgerufen werden.
+      \item Der Benutzer soll seinen Benutzernamen und Kennwort eingeben können.
+      \item Mithilfe eines Steuerelements soll der Anmeldeversuch durchgeführt werden können.
+      \item Beim Scheitern des Anmeldeversuchs soll dementsprechendes Feedback gegeben werden.
+      \item Beim erfolgreichen Einloggen soll der angemeldete Benutzer solange angemeldet bleiben, bis er sich wieder
+        abmeldet.
+    \end{enumerate}
+
+    \itemh{Benutzeroberfläche: Dashboard}
+    \begin{enumerate}
+      \item Nur angemeldete Benutzer sollen diesen Teil der Anwendung sehen können.
+      \item Das Dashboard soll dem Benutzer die Anzahl der anstehenden Wartungen in dem aktuellen Jahr anzeigen.
+      \item Das Dashboard soll dem Benutzer die Anzahl der erledigten Wartungen in dem aktuellen Jahr anzeigen.
+      \item Das Dashboard soll dem Benutzer die nächste anstehende Wartung anzeigen.
+      \item Der Benutzer soll mithilfe eines Steuerelements schnell auf die Übersichtsseite der dementsprechenden
+        Wartung gelangen können.
+      \item Es soll eine Tabelle erstellt werden, die dem Benutzer die nächsten fünf anstehenden Wartungen anzeigt.
+        Dabei soll der Kunde, der Ort, die Anlage und der Zeitpunkt des Termins angezeigt werden.
+      \item Durch einen Klick auf einen Tabelleneintrag soll der Benutzer zur dementsprechenden Übersichtsseite der
+        Wartung gelangen können.
+    \end{enumerate}
+
+    \itemh{Benutzeroberfläche: Wartungen}
+    \begin{enumerate}
+      \item Nur angemeldete Benutzer sollen diesen Teil der Anwendung sehen können.
+      \item Eine Tabelle soll dem Benutzer alle Wartungen anzeigen, die ihm zugeordnet wurden.
+      \item Der Benutzer soll die Einträge der Tabelle filtern können, z.B., um bereits abgeschlossene Arbeiten
+        auszublenden.
+      \item Der Benutzer soll eine Wartung als abgeschlossen markieren können.
+      \item Benutzer mit der Rolle \textit{Verwalter} sollen neue Wartungen erstellen und anderen Benutzern zuweisen
+        können.
+      \item Wartungen sollen lediglich Kundendaten mit einem (wiederkehrenden) Zeitpunkt verbinden, um
+        Wartungsarbeiten zu definieren.
+      \item Beim Erstellen von Wartungen soll die Wartungsperiode und das Ende des Wartungsvertrages angegeben werden können.
+      \item Verwalter sollen Wartungen löschen können.
+      \item Verwalter sollen Wartungen bearbeiten können.
+    \end{enumerate}
+
+    \itemh{Benutzeroberfläche: Kunden}
+    \begin{enumerate}
+      \item Nur angemeldete Verwalter sollen diesen Teil der Anwendung sehen können.
+      \item Verwalter sollen neue Kunden hinzufügen können.
+      \item Kunden besitzen einen Namen, eine Anschrift und eine Ansprechsperson inkl. Kontaktinformationen.
+      \item Verwalter sollen Kunden löschen können.
+      \item Verwalter sollen Kundendaten bearbeiten können.
+    \end{enumerate}
   \end{enumerate}
 
   \section{Nicht-funktionale Anforderungen}
+  \begin{enumerate}
+    \itemh{Sicherheit}
+    \begin{enumerate}
+      \item Server- und Client-Anwendungen sollen die Integrität, Vertraulichkeit und
+        Verfügbarkeit der Informationen gewährleisten.
+    \end{enumerate}
+
+    \itemh{Performance}
+    \begin{enumerate}
+      \item Die Anwendung soll mit ausreichender Performance laufen.
+      \item Algorithmen sind so zu wählen, dass diese eine möglichst geringe Komplexität besitzen.
+    \end{enumerate}
+
+    \itemh{Usability}
+    \begin{enumerate}
+      \item Die Anwendung soll mithilfe des Design-Systems \textit{Material
+        Design}\footnote{\url{https://material.io/design/}}
+        umgesetzt werden.
+    \end{enumerate}
+  \end{enumerate}
 \end{document}
