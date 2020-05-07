@@ -50,6 +50,14 @@ const useStyles = makeStyles(theme => ({
 		color: theme.palette.primary.contrastText,
 		lineHeight: `64px`,
 		padding: '0 24px'
+	},
+
+	navItemText: {
+		color: theme.palette.primary.contrastText
+	},
+
+	navItemIcon: {
+		color: theme.palette.primary.contrastText
 	}
 
 }));
@@ -81,8 +89,8 @@ function App() {
 				<List>
 					{navItems.map(navItem => (
 						<ListItem button key={navItem.header}>
-							<ListItemIcon>{navItem.icon}</ListItemIcon>
-							<ListItemText primary={navItem.header} />
+							<ListItemIcon className={classes.navItemIcon}>{navItem.icon}</ListItemIcon>
+							<ListItemText primary={navItem.header} className={classes.navItemText} />
 						</ListItem>
 					))}
 				</List>
