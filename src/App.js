@@ -7,7 +7,13 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
-import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import BuildIcon from '@material-ui/icons/Build';
+import GroupIcon from '@material-ui/icons/Group';
 import { makeStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 350;
@@ -42,11 +48,26 @@ const useStyles = makeStyles(theme => ({
 
 	title: {
 		color: theme.palette.primary.contrastText,
-		lineHeight: '64px',
+		lineHeight: `64px`,
 		padding: '0 24px'
 	}
 
 }));
+
+const navItems = [
+	{
+		header: 'Dashboard',
+		icon: <DashboardIcon />
+	},
+	{
+		header: 'Wartungen',
+		icon: <BuildIcon />
+	},
+	{
+		header: 'Kunden',
+		icon: <GroupIcon />
+	}
+];
 
 function App() {
 	const classes = useStyles();
@@ -57,8 +78,15 @@ function App() {
 				<Typography variant="h6" className={classes.title}>
 					Bilfinger Wartungscenter
 				</Typography>
+				<List>
+					{navItems.map(navItem => (
+						<ListItem button key={navItem.header}>
+							<ListItemIcon>{navItem.icon}</ListItemIcon>
+							<ListItemText primary={navItem.header} />
+						</ListItem>
+					))}
+				</List>
 			</div>
-			<Divider />
 		</div>
 	);
 
