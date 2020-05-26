@@ -3,9 +3,11 @@ import { useHistory, Switch, Route } from "react-router-dom";
 import "./App.css";
 
 import AppContext from "./contexts/AppContext";
+import AuthContext from "./contexts/AuthContext";
 import Dashboard from "./pages/Dashboard";
 import Maintenances from "./pages/Maintenances";
 import Customers from "./pages/Customers";
+import UserAvatar from "./components/UserAvatar";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
@@ -24,139 +26,160 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const drawerWidth = 350;
 const useStyles = makeStyles(theme => ({
-	root: {
-		display: "flex"
-	},
+  root: {
+    display: "flex"
+  },
 
-	drawer: {
-		[theme.breakpoints.up("sm")]: {
-			width: drawerWidth,
-			flexShrink: 0
-		}
-	},
+  drawer: {
+    [theme.breakpoints.up("sm")]: {
+      width: drawerWidth,
+      flexShrink: 0
+    }
+  },
 
-	drawerPaper: {
-		width: drawerWidth,
-		background: "#414B61"
-	},
+  drawerPaper: {
+    width: drawerWidth,
+    background: "#414B61"
+  },
 
-	appBar: {
-		[theme.breakpoints.up("sm")]: {
-			width: `calc(100% - ${drawerWidth}px)`,
-			marginLeft: drawerWidth,
-			background: "#fff",
-			color: theme.palette.text.primary
-		}
-	},
+  appBar: {
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+      background: "#fff",
+      color: theme.palette.text.primary
+    }
+  },
 
-	toolbar: theme.mixins.toolbar,
+  appToolbar: {
+    paddingRight: 0
+  },
 
-	title: {
-		color: theme.palette.primary.contrastText,
-		lineHeight: `64px`,
-		padding: "0 24px"
-	},
+  toolbar: theme.mixins.toolbar,
 
-	navItemText: {
-		color: theme.palette.primary.contrastText
-	},
+  title: {
+    color: theme.palette.primary.contrastText,
+    lineHeight: `64px`,
+    padding: "0 24px"
+  },
 
-	navItemIcon: {
-		color: theme.palette.primary.contrastText
-	},
+  pageTitle: {
+    marginRight: "auto"
+  },
 
-	content: {
-		marginTop: 64,
-		width: `calc(100vw - ${drawerWidth}px)`,
-		padding: theme.spacing(3)
-	}
+  navItemText: {
+    color: theme.palette.primary.contrastText
+  },
+
+  navItemIcon: {
+    color: theme.palette.primary.contrastText
+  },
+
+  content: {
+    marginTop: 64,
+    width: `calc(100vw - ${drawerWidth}px)`,
+    padding: theme.spacing(3)
+  }
 }));
 
 const navItems = [
-	{
-		header: "Dashboard",
-		icon: <DashboardIcon />,
-		target: "/app/dashboard"
-	},
-	{
-		header: "Wartungen",
-		icon: <BuildIcon />,
-		target: "/app/maintenances"
-	},
-	{
-		header: "Kunden",
-		icon: <GroupIcon />,
-		target: "/app/customers"
-	}
+  {
+    header: "Dashboard",
+    icon: <DashboardIcon />,
+    target: "/app/dashboard"
+  },
+  {
+    header: "Wartungen",
+    icon: <BuildIcon />,
+    target: "/app/maintenances"
+  },
+  {
+    header: "Kunden",
+    icon: <GroupIcon />,
+    target: "/app/customers"
+  }
 ];
 
 function App() {
-	const classes = useStyles();
-	const [title] = useContext(AppContext);
-	const history = useHistory();
+  const classes = useStyles();
+  const [title] = useContext(AppContext);
+  const history = useHistory();
 
-	const drawer = (
-		<div>
-			<div className={classes.toolbar}>
-				<Typography variant="h6" className={classes.title}>
-					Bilfinger Wartungscenter
-				</Typography>
-				<List>
-					{navItems.map(navItem => {
-						const handleClick = () => {
-							history.push(navItem.target);
-						};
+  const {
+    token: [, setToken]
+  } = useContext(AuthContext);
 
-						return (
-							<ListItem button onClick={handleClick} key={navItem.header}>
-								<ListItemIcon className={classes.navItemIcon}>
-									{navItem.icon}
-								</ListItemIcon>
-								<ListItemText
-									primary={navItem.header}
-									className={classes.navItemText}
-								/>
-							</ListItem>
-						);
-					})}
-				</List>
-			</div>
-		</div>
-	);
+  const handleLogout = () => {
+    setToken();
+  };
 
-	return (
-		<div className={classes.root}>
-			<CssBaseline />
-			<AppBar position="fixed" className={classes.appBar}>
-				<Toolbar>
-					<Typography variant="h6" noWrap>
-						{title}
-					</Typography>
-				</Toolbar>
-			</AppBar>
-			<nav className={classes.drawer}>
-				<Hidden smUp implementation="css">
-					<Drawer variant="temporary">{drawer}</Drawer>
-				</Hidden>
-				<Hidden xsDown implementation="css">
-					<Drawer
-						variant="permanent"
-						open
-						classes={{ paper: classes.drawerPaper }}
-					>
-						{drawer}
-					</Drawer>
-				</Hidden>
-			</nav>
-			<main className={classes.content}>
-				<Switch>
-					<Route path="/app/dashboard" component={Dashboard} />
-					<Route path="/app/maintenances" component={Maintenances} />
-					<Route path="/app/customers" component={Customers} />
-				</Switch>
-			</main>
-		</div>
-	);
+  const drawer = (
+    <div>
+      <div className={classes.toolbar}>
+        <Typography variant="h6" className={classes.title}>
+          Bilfinger Wartungscenter
+        </Typography>
+        <List>
+          {navItems.map(navItem => {
+            const handleClick = () => {
+              history.push(navItem.target);
+            };
+
+            return (
+              <ListItem button onClick={handleClick} key={navItem.header}>
+                <ListItemIcon className={classes.navItemIcon}>
+                  {navItem.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={navItem.header}
+                  className={classes.navItemText}
+                />
+              </ListItem>
+            );
+          })}
+        </List>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <AppBar position="fixed" className={classes.appBar}>
+        <Toolbar className={classes.appToolbar}>
+          <Typography className={classes.pageTitle} variant="h6" noWrap>
+            {title}
+          </Typography>
+          <UserAvatar
+            firstName="Florian"
+            lastName="Hansen"
+            onLogout={handleLogout}
+          />
+        </Toolbar>
+      </AppBar>
+      <nav className={classes.drawer}>
+        <Hidden smUp implementation="css">
+          <Drawer variant="temporary">{drawer}</Drawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <Drawer
+            variant="permanent"
+            open
+            classes={{ paper: classes.drawerPaper }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+      </nav>
+      <main className={classes.content}>
+        <Switch>
+          <Route path="/app/dashboard" component={Dashboard} />
+          <Route path="/app/maintenances" component={Maintenances} />
+          <Route path="/app/customers" component={Customers} />
+        </Switch>
+      </main>
+    </div>
+  );
 }
 
 export default App;

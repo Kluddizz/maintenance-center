@@ -7,6 +7,8 @@ import {
   Redirect
 } from "react-router-dom";
 
+import { SnackbarProvider } from "notistack";
+
 import App from "./App";
 import Login from "./pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
@@ -23,9 +25,14 @@ ReactDOM.render(
       <CookiesProvider>
         <AuthProvider>
           <AppProvider>
-            <PrivateRoute path="/app" component={App} />
-            <Route path="/login" component={Login} />
-            <Redirect from="/" to="/app" />
+            <SnackbarProvider
+              maxSnack={3}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+              <PrivateRoute path="/app" component={App} />
+              <Route path="/login" component={Login} />
+              <Redirect from="/" to="/app/dashboard" />
+            </SnackbarProvider>
           </AppProvider>
         </AuthProvider>
       </CookiesProvider>

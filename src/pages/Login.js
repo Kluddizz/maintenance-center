@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import { useHistory, Link } from "react-router-dom";
 
+import { useSnackbar } from "notistack";
+
 import Auth from "../services/Auth";
 import AuthContext from "../contexts/AuthContext";
 import waves from "../icons/waves.svg";
@@ -87,6 +89,7 @@ const Login = () => {
   const classes = useStyles();
   const history = useHistory();
 
+  const { enqueueSnackbar } = useSnackbar();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const {
@@ -107,6 +110,8 @@ const Login = () => {
     if (response.success) {
       setToken(response.token);
       history.push("/app/dashboard");
+    } else {
+      enqueueSnackbar("Login fehlgeschlagen", { variant: "error" });
     }
   };
 
