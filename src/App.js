@@ -76,17 +76,17 @@ const navItems = [
 	{
 		header: "Dashboard",
 		icon: <DashboardIcon />,
-		target: "/dashboard"
+		target: "/app/dashboard"
 	},
 	{
 		header: "Wartungen",
 		icon: <BuildIcon />,
-		target: "/maintenances"
+		target: "/app/maintenances"
 	},
 	{
 		header: "Kunden",
 		icon: <GroupIcon />,
-		target: "/customers"
+		target: "/app/customers"
 	}
 ];
 
@@ -150,9 +150,9 @@ function App() {
 			</nav>
 			<main className={classes.content}>
 				<Switch>
-					<Route path="/dashboard" component={Dashboard} />
-					<Route path="/maintenances" component={Maintenances} />
-					<Route path="/customers" component={Customers} />
+					<Route path="/app/dashboard" component={Dashboard} />
+					<Route path="/app/maintenances" component={Maintenances} />
+					<Route path="/app/customers" component={Customers} />
 				</Switch>
 			</main>
 		</div>

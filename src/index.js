@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import App from "./App";
+import Login from "./pages/Login";
 import { AppProvider } from "./contexts/AppContext";
 
 import * as serviceWorker from "./serviceWorker";
@@ -12,7 +13,8 @@ ReactDOM.render(
 	<Router>
 		<Switch>
 			<AppProvider>
-				<Route path="/" component={App} />
+				<Route path="/login" component={Login} />
+				<Route path="/app" component={App} />
 			</AppProvider>
 		</Switch>
 	</Router>,
