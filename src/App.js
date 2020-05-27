@@ -106,7 +106,8 @@ function App() {
   const history = useHistory();
 
   const {
-    token: [, setToken]
+    token: [, setToken],
+    user: [user]
   } = useContext(AuthContext);
 
   const handleLogout = () => {
@@ -151,8 +152,8 @@ function App() {
             {title}
           </Typography>
           <UserAvatar
-            firstName="Florian"
-            lastName="Hansen"
+            firstName={user?.firstname}
+            lastName={user?.lastname}
             onLogout={handleLogout}
           />
         </Toolbar>
