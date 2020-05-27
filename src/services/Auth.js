@@ -15,4 +15,15 @@ export default class Auth {
 
     return await request.json();
   }
+
+  static async getUser(token) {
+    const request = await fetch(`${AUTH_SERVER}/users`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    return await request.json();
+  }
 }
