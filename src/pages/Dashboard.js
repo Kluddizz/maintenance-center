@@ -88,13 +88,7 @@ const Dashboard = ({ ...props }) => {
   return (
     <div>
       <Grid container spacing={3}>
-        <Grid item xs={4}>
-          <Card className={classes.card}>
-            <CardHeader title="Übersicht" />
-            <CardContent></CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={12}>
           <Card className={classes.card}>
             <CardHeader title="Anstehende Wartungen" />
 
