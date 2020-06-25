@@ -44,7 +44,7 @@ const maintenances = [
     customer: "DHSV Eiderstedt",
     dueDate: "05.05.2020",
     employee: "Max Mustermann",
-    state: 2
+    state: 1
   },
   {
     id: 1,
