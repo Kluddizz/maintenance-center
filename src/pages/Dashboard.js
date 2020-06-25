@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import AppContext from "../contexts/AppContext";
 
 import ProgressCard from "../components/ProgressCard";
+import StateChip from "../components/StateChip";
 
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
@@ -126,7 +127,9 @@ const Dashboard = ({ ...props }) => {
                       <TableCell>{maintenance.customer}</TableCell>
                       <TableCell>{maintenance.dueDate}</TableCell>
                       <TableCell>{maintenance.employee}</TableCell>
-                      <TableCell>{maintenance.status}</TableCell>
+                      <TableCell>
+                        <StateChip state={maintenance.state} />
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
