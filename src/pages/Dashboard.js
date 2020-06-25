@@ -18,8 +18,18 @@ import TablePagination from "@material-ui/core/TablePagination";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
+  tableHeader: {
+    fontWeight: 900
+  },
+
   card: {
     height: "100%"
+  },
+
+  cardContentRoot: {
+    "&:last-child": {
+      paddingBottom: 0
+    }
   },
 
   cardContent: {
@@ -111,12 +121,19 @@ const Dashboard = ({ ...props }) => {
           <Card className={classes.card}>
             <CardHeader title="Anstehende Wartungen" />
 
-            <CardContent className={classes.cardContent}>
+            <CardContent
+              className={classes.cardContent}
+              classes={{ root: classes.cardContentRoot }}
+            >
               <Table>
                 <TableHead>
                   <TableRow>
                     {tableHeaders.map((header, idx) => {
-                      return <TableCell key={idx}>{header.title}</TableCell>;
+                      return (
+                        <TableCell className={classes.tableHeader} key={idx}>
+                          {header.title}
+                        </TableCell>
+                      );
                     })}
                   </TableRow>
                 </TableHead>
