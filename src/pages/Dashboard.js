@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import AppContext from "../contexts/AppContext";
 
+import ProgressCard from "../components/ProgressCard";
+
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -88,6 +90,22 @@ const Dashboard = ({ ...props }) => {
   return (
     <div>
       <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <ProgressCard
+            title="Abgeschlossene Wartungen"
+            subtitle="in diesem Jahr"
+            value={60}
+            className={classes.card}
+          ></ProgressCard>
+        </Grid>
+        <Grid item xs={6}>
+          <ProgressCard
+            title="Angefertigte Protokolle"
+            subtitle="in diesem Jahr"
+            value={60}
+            className={classes.card}
+          ></ProgressCard>
+        </Grid>
         <Grid item xs={12}>
           <Card className={classes.card}>
             <CardHeader title="Anstehende Wartungen" />
