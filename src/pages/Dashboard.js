@@ -101,7 +101,7 @@ const Dashboard = ({ ...props }) => {
   return (
     <div>
       <Grid container spacing={3}>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <ProgressCard
             title="Abgeschlossene Wartungen"
             subtitle="in diesem Jahr"
@@ -109,9 +109,17 @@ const Dashboard = ({ ...props }) => {
             className={classes.card}
           ></ProgressCard>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <ProgressCard
             title="Angefertigte Protokolle"
+            subtitle="in diesem Jahr"
+            value={60}
+            className={classes.card}
+          ></ProgressCard>
+        </Grid>
+        <Grid item xs={4}>
+          <ProgressCard
+            title="Bezahlte Rechnungen"
             subtitle="in diesem Jahr"
             value={60}
             className={classes.card}
