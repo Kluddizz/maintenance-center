@@ -3,6 +3,7 @@ import AppContext from "../contexts/AppContext";
 
 import StateChip from "../components/StateChip";
 
+import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
@@ -14,7 +15,10 @@ import TablePagination from "@material-ui/core/TablePagination";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
+import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
+
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 const useStyles = makeStyles(theme => ({
   tableHeader: {
@@ -31,6 +35,19 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: 0,
     paddingRight: 0,
     paddingBottom: 0
+  },
+
+  cardHeader: {
+    display: "flex"
+  },
+
+  tableActions: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: "auto",
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(2)
   }
 }));
 
@@ -99,7 +116,15 @@ const Maintenances = ({ ...props }) => {
       <Grid container>
         <Grid item xs={12}>
           <Card>
-            <CardHeader title="Wartungen" />
+            <div className={classes.cardHeader}>
+              <CardHeader title="Wartungen" />
+              <div className={classes.tableActions}>
+                <TextField margin="dense" variant="outlined" />
+                <IconButton>
+                  <MoreVertIcon />
+                </IconButton>
+              </div>
+            </div>
             <CardContent
               classes={{ root: classes.cardContentRoot }}
               className={classes.cardContent}
