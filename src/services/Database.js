@@ -26,4 +26,15 @@ export default class Database {
     return await request.json();
   }
 
+  static async deleteCustomer(token, customer) {
+    const request = await fetch(`${BACKEND_SERVER}/customer/${customer.id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    return await request.json();
+  }
+
 }

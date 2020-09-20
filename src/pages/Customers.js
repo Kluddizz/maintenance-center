@@ -5,6 +5,7 @@ import AuthContext from "../contexts/AuthContext";
 import Database from "../services/Database";
 
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+import { useSnackbar } from "notistack";
 
 import Menu from '@material-ui/core/Menu';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -81,6 +82,7 @@ const Customers = ({ ...props }) => {
   const [newCustomer, setNewCustomer] = useState({});
 
   const [selected, setSelected] = useState([]);
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleAddDialogClose = () => {
     setAddDialogOpen(false);
@@ -141,6 +143,8 @@ const Customers = ({ ...props }) => {
     if (response.success) {
       setAddDialogOpen(false);
       updateCustomers();
+    } else {
+      enqueueSnackbar("Kunde konnte nicht erstellt werden", { variant: "error" });
     }
   };
 
@@ -150,6 +154,25 @@ const Customers = ({ ...props }) => {
       setSelected(newSelected);
     } else {
       setSelected([]);
+    }
+  };
+
+  const deleteSelected = () => {
+    for (let id of selected) {
+      const customer = customers.find(c => c.id === id);
+
+      Database.deleteCustomer(token, customer)
+        .then(res => {
+          if (res.success) {
+            updateCustomers();
+            setSelected([]);
+          } else {
+            enqueueSnackbar(
+              `Kunde '${customer.name}' konnte nicht gelöscht werden`,
+              { variant: "error" }
+            );
+          }
+        });
     }
   };
 
@@ -173,6 +196,11 @@ const Customers = ({ ...props }) => {
                         popupState.close();
                       };
 
+                      const handleDeleteCustomer = () => {
+                        deleteSelected();
+                        popupState.close();
+                      };
+
                       return (
                         <>
                           <IconButton {...bindTrigger(popupState)}>
@@ -181,6 +209,7 @@ const Customers = ({ ...props }) => {
 
                           <Menu {...bindMenu(popupState)}>
                             <MenuItem onClick={handleAddCustomer}>Kunden hinzufügen</MenuItem>
+                            <MenuItem onClick={handleDeleteCustomer}>Kunden löschen</MenuItem>
                           </Menu>
                         </>
                       );
