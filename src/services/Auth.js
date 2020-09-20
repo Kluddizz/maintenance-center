@@ -1,8 +1,8 @@
-import { AUTH_SERVER } from "../constants/external.js";
+import { BACKEND_SERVER } from "../constants/external.js";
 
 export default class Auth {
   static async login(username, password) {
-    const request = await fetch(`${AUTH_SERVER}/login`, {
+    const request = await fetch(`${BACKEND_SERVER}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -17,7 +17,7 @@ export default class Auth {
   }
 
   static async getUser(token) {
-    const request = await fetch(`${AUTH_SERVER}/users`, {
+    const request = await fetch(`${BACKEND_SERVER}/users`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`

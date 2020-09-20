@@ -15,6 +15,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { AppProvider } from "./contexts/AppContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { CookiesProvider } from "react-cookie";
+import { CustomerProvider } from "./contexts/CustomerContext";
 
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
@@ -25,14 +26,16 @@ ReactDOM.render(
       <CookiesProvider>
         <AuthProvider>
           <AppProvider>
-            <SnackbarProvider
-              maxSnack={3}
-              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            >
-              <PrivateRoute path="/app" component={App} />
-              <Route path="/login" component={Login} />
-              <Redirect from="/" to="/app/dashboard" />
-            </SnackbarProvider>
+            <CustomerProvider>
+              <SnackbarProvider
+                maxSnack={3}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              >
+                <PrivateRoute path="/app" component={App} />
+                <Route path="/login" component={Login} />
+                <Redirect from="/" to="/app/dashboard" />
+              </SnackbarProvider>
+            </CustomerProvider>
           </AppProvider>
         </AuthProvider>
       </CookiesProvider>
