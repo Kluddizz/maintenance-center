@@ -7,6 +7,7 @@ import Database from "../services/Database";
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 
 import Menu from '@material-ui/core/Menu';
+import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -79,6 +80,8 @@ const Customers = ({ ...props }) => {
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [newCustomer, setNewCustomer] = useState({});
 
+  const [selected, setSelected] = useState([]);
+
   const handleAddDialogClose = () => {
     setAddDialogOpen(false);
   };
@@ -141,6 +144,15 @@ const Customers = ({ ...props }) => {
     }
   };
 
+  const selectAll = (event) => {
+    if (event.target.checked) {
+      const newSelected = customers.map(c => c.id);
+      setSelected(newSelected);
+    } else {
+      setSelected([]);
+    }
+  };
+
 	useEffect(() => {
 		setTitle("Kunden");
 	}, [setTitle]);
@@ -183,6 +195,13 @@ const Customers = ({ ...props }) => {
               <Table>
                 <TableHead>
                   <TableRow>
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        indeterminate={selected.length > 0 && selected.length < customers.length}
+                        checked={customers.length > 0 && selected.length === customers.length}
+                        onChange={selectAll}
+                      />
+                    </TableCell>
                     {tableHeaders.map((header, idx) => {
                       return (
                         <TableCell className={classes.tableHeader} key={idx}>
@@ -193,15 +212,35 @@ const Customers = ({ ...props }) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {customers.map(customer => (
-                    <TableRow key={customer.id}>
-                      <TableCell>{customer.name}</TableCell>
-                      <TableCell>{customer.contactperson}</TableCell>
-                      <TableCell>{customer.street}, {customer.zip} {customer.city}</TableCell>
-                      <TableCell>{customer.email}</TableCell>
-                      <TableCell>{customer.phone}</TableCell>
-                    </TableRow>
-                  ))}
+                  {customers.map(customer => {
+                    const selectItem = (event) => {
+                      let newSelected = [];
+
+                      if (!selected.includes(customer.id)) {
+                        newSelected = newSelected.concat(selected, customer.id);
+                      } else {
+                        newSelected = selected.filter(s => s !== customer.id);
+                      }
+
+                      setSelected(newSelected);
+                    };
+
+                    return (
+                      <TableRow key={customer.id}>
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={selected.includes(customer.id)}
+                            onChange={selectItem}
+                          />
+                        </TableCell>
+                        <TableCell>{customer.name}</TableCell>
+                        <TableCell>{customer.contactperson}</TableCell>
+                        <TableCell>{customer.street}, {customer.zip} {customer.city}</TableCell>
+                        <TableCell>{customer.email}</TableCell>
+                        <TableCell>{customer.phone}</TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
                 <TableFooter>
                   <TableRow>
