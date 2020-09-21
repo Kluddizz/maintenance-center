@@ -37,4 +37,17 @@ export default class Database {
     return await request.json();
   }
 
+  static async editCustomer(token, customer) {
+    const request = await fetch(`${BACKEND_SERVER}/customer/${customer.id}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(customer)
+    });
+
+    return await request.json();
+  }
+
 }

@@ -32,6 +32,7 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import EditIcon from "@material-ui/icons/Edit";
 
 const tableHeaders = [
   { title: "Name" },
@@ -79,61 +80,58 @@ const Customers = ({ ...props }) => {
 	const [, setTitle] = useContext(AppContext);
   const [customers, updateCustomers] = useContext(CustomerContext);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [newCustomer, setNewCustomer] = useState({});
 
   const [selected, setSelected] = useState([]);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
   const { enqueueSnackbar } = useSnackbar();
 
   const handleAddDialogClose = () => {
     setAddDialogOpen(false);
   };
 
-  const changeNewCustomerName = event => {
+  const editCustomer = (customer) => {
+    setSelectedCustomer({ ...customer });
+    setEditDialogOpen(true);
+  };
+
+  const closeEditDialog = () => {
+    setEditDialogOpen(false);
+    setSelectedCustomer(null);
+  };
+
+  const confirmEditCustomer = async () => {
+    const response = await Database.editCustomer(token, selectedCustomer);
+
+    if (response.success) {
+      enqueueSnackbar(
+        `Der Kunde '${selectedCustomer.name}' wurde geändert.`,
+        { variant: 'success' }
+      );
+
+      closeEditDialog();
+      updateCustomers();
+    } else {
+      enqueueSnackbar(
+        `Der Kunde '${selectedCustomer.name}' konnte nicht geändert werden.`,
+        { variant: 'error' }
+      );
+    }
+
+  };
+
+  const changeNewCustomer = (property, event) => {
     setNewCustomer({
       ...newCustomer,
-      name: event.currentTarget.value
+      [property]: event.currentTarget
     });
   };
 
-  const changeNewCustomerContactPerson = event => {
-    setNewCustomer({
-      ...newCustomer,
-      contactperson: event.currentTarget.value
-    });
-  };
-
-  const changeNewCustomerStreet = event => {
-    setNewCustomer({
-      ...newCustomer,
-      street: event.currentTarget.value
-    });
-  };
-
-  const changeNewCustomerZip = event => {
-    setNewCustomer({
-      ...newCustomer,
-      zip: event.currentTarget.value
-    });
-  };
-
-  const changeNewCustomerCity = event => {
-    setNewCustomer({
-      ...newCustomer,
-      city: event.currentTarget.value
-    });
-  };
-
-  const changeNewCustomerEmail = event => {
-    setNewCustomer({
-      ...newCustomer,
-      email: event.currentTarget.value
-    });
-  };
-
-  const changeNewCustomerPhone = event => {
-    setNewCustomer({
-      ...newCustomer,
-      phone: event.currentTarget.value
+  const changeSelectedCustomer = (property, event) => {
+    setSelectedCustomer({
+      ...selectedCustomer,
+      [property]: event.currentTarget.value
     });
   };
 
@@ -237,6 +235,7 @@ const Customers = ({ ...props }) => {
                         </TableCell>
                       );
                     })}
+                    <TableCell padding="checkbox" />
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -266,6 +265,11 @@ const Customers = ({ ...props }) => {
                         <TableCell>{customer.street}, {customer.zip} {customer.city}</TableCell>
                         <TableCell>{customer.email}</TableCell>
                         <TableCell>{customer.phone}</TableCell>
+                        <TableCell>
+                          <IconButton onClick={() => editCustomer(customer)}>
+                            <EditIcon />
+                          </IconButton>
+                        </TableCell>
                       </TableRow>
                     );
                   })}
@@ -295,44 +299,44 @@ const Customers = ({ ...props }) => {
           </DialogContentText>
 
           <TextField
-            onChange={changeNewCustomerName}
+            onChange={event => changeNewCustomer('name', event)}
             label="Name des Kunden"
             fullWidth
             margin="dense"
             autoFocus
           />
           <TextField
-            onChange={changeNewCustomerContactPerson}
+            onChange={event => changeNewCustomer('contactperson', event)}
             label="Ansprechpartner"
             fullWidth
             margin="dense"
           />
           <TextField
-            onChange={changeNewCustomerStreet}
+            onChange={event => changeNewCustomer('street', event)}
             label="Straße"
             fullWidth
             margin="dense"
           />
           <TextField
-            onChange={changeNewCustomerZip}
+            onChange={event => changeNewCustomer('zip', event)}
             label="Postleitzahl"
             fullWidth
             margin="dense"
           />
           <TextField
-            onChange={changeNewCustomerCity}
+            onChange={event => changeNewCustomer('city', event)}
             label="Stadt"
             fullWidth
             margin="dense"
           />
           <TextField
-            onChange={changeNewCustomerEmail}
+            onChange={event => changeNewCustomer('email', event)}
             label="E-Mail"
             fullWidth
             margin="dense"
           />
           <TextField
-            onChange={changeNewCustomerPhone}
+            onChange={event => changeNewCustomer('phone', event)}
             label="Telefon"
             fullWidth
             margin="dense"
@@ -344,6 +348,74 @@ const Customers = ({ ...props }) => {
           </Button>
           <Button onClick={handleAddCustomer} color="primary">
             Hinzufügen
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={editDialogOpen} onClose={closeEditDialog}>
+        <DialogTitle>Neuen Kunden hinzufügen</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Bitte füllen Sie das folgende Formular aus, um den vorhandenen Kunden zu ändern.
+          </DialogContentText>
+
+          <TextField
+            onChange={event => changeSelectedCustomer('name', event)}
+            label="Name des Kunden"
+            fullWidth
+            margin="dense"
+            autoFocus
+            value={selectedCustomer?.name}
+          />
+          <TextField
+            onChange={event => changeSelectedCustomer('contactperson', event)}
+            label="Ansprechpartner"
+            fullWidth
+            margin="dense"
+            value={selectedCustomer?.contactperson}
+          />
+          <TextField
+            onChange={event => changeSelectedCustomer('street', event)}
+            label="Straße"
+            fullWidth
+            margin="dense"
+            value={selectedCustomer?.street}
+          />
+          <TextField
+            onChange={event => changeSelectedCustomer('zip', event)}
+            label="Postleitzahl"
+            fullWidth
+            margin="dense"
+            value={selectedCustomer?.zip}
+          />
+          <TextField
+            onChange={event => changeSelectedCustomer('city', event)}
+            label="Stadt"
+            fullWidth
+            margin="dense"
+            value={selectedCustomer?.city}
+          />
+          <TextField
+            onChange={event => changeSelectedCustomer('email', event)}
+            label="E-Mail"
+            fullWidth
+            margin="dense"
+            value={selectedCustomer?.email}
+          />
+          <TextField
+            onChange={event => changeSelectedCustomer('phone', event)}
+            label="Telefon"
+            fullWidth
+            margin="dense"
+            value={selectedCustomer?.phone}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeEditDialog} color="primary">
+            Abbrechen
+          </Button>
+          <Button onClick={confirmEditCustomer} color="primary">
+            Übernehmen
           </Button>
         </DialogActions>
       </Dialog>
