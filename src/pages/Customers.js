@@ -124,7 +124,7 @@ const Customers = ({ ...props }) => {
   const changeNewCustomer = (property, event) => {
     setNewCustomer({
       ...newCustomer,
-      [property]: event.currentTarget
+      [property]: event.currentTarget.value
     });
   };
 
