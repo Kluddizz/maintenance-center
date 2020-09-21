@@ -188,7 +188,6 @@ const Customers = ({ ...props }) => {
             <div className={classes.cardHeader}>
               <CardHeader title="Kunden" />
               <div className={classes.tableActions}>
-                <TextField margin="dense" variant="outlined" />
                   <PopupState variant="popover">
                     {popupState => {
                       const handleAddCustomer = () => {
