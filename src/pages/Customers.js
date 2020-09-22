@@ -3,6 +3,7 @@ import AppContext from "../contexts/AppContext";
 import CustomerContext from "../contexts/CustomerContext";
 import AuthContext from "../contexts/AuthContext";
 import Database from "../services/Database";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import { useSnackbar } from "notistack";
@@ -81,11 +82,41 @@ const Customers = ({ ...props }) => {
   const [customers, updateCustomers] = useContext(CustomerContext);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [newCustomer, setNewCustomer] = useState({});
 
   const [selected, setSelected] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const { enqueueSnackbar } = useSnackbar();
+
+  const closeConfirmDialog = () => {
+    setConfirmDialogOpen(false);
+  };
+
+  const handleConfirmDialogYes = () => {
+    for (let id of selected) {
+      const customer = customers.find(c => c.id === id);
+
+      Database.deleteCustomer(token, customer)
+        .then(res => {
+          if (res.success) {
+            updateCustomers();
+            setSelected([]);
+          } else {
+            enqueueSnackbar(
+              `Kunde '${customer.name}' konnte nicht gelöscht werden`,
+              { variant: "error" }
+            );
+          }
+        });
+    }
+
+    closeConfirmDialog();
+  };
+  
+  const handleConfirmDialogNo = () => {
+    closeConfirmDialog();
+  };
 
   const handleAddDialogClose = () => {
     setAddDialogOpen(false);
@@ -156,22 +187,7 @@ const Customers = ({ ...props }) => {
   };
 
   const deleteSelected = () => {
-    for (let id of selected) {
-      const customer = customers.find(c => c.id === id);
-
-      Database.deleteCustomer(token, customer)
-        .then(res => {
-          if (res.success) {
-            updateCustomers();
-            setSelected([]);
-          } else {
-            enqueueSnackbar(
-              `Kunde '${customer.name}' konnte nicht gelöscht werden`,
-              { variant: "error" }
-            );
-          }
-        });
-    }
+    setConfirmDialogOpen(true);
   };
 
 	useEffect(() => {
@@ -419,6 +435,15 @@ const Customers = ({ ...props }) => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <ConfirmDialog
+        open={confirmDialogOpen}
+        onClose={closeConfirmDialog}
+        onYes={handleConfirmDialogYes}
+        onNo={handleConfirmDialogNo}
+        title="Möchten Sie wirklich die Kunden löschen?"
+      />
+
     </div>
   );
 };
