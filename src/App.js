@@ -7,6 +7,7 @@ import AuthContext from "./contexts/AuthContext";
 import Dashboard from "./pages/Dashboard";
 import Maintenances from "./pages/Maintenances";
 import Customers from "./pages/Customers";
+import Systems from "./pages/Systems";
 import UserAvatar from "./components/UserAvatar";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -22,6 +23,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import BuildIcon from "@material-ui/icons/Build";
 import GroupIcon from "@material-ui/icons/Group";
+import LocationCityIcon from "@material-ui/icons/LocationCity";
 import { makeStyles } from "@material-ui/core/styles";
 
 const drawerWidth = 350;
@@ -92,6 +94,11 @@ const navItems = [
     header: "Wartungen",
     icon: <BuildIcon />,
     target: "/app/maintenances"
+  },
+  {
+    header: "Anlagen",
+    icon: <LocationCityIcon />,
+    target: "/app/systems"
   },
   {
     header: "Kunden",
@@ -177,6 +184,7 @@ function App() {
           <Route path="/app/dashboard" component={Dashboard} />
           <Route path="/app/maintenances" component={Maintenances} />
           <Route path="/app/customers" component={Customers} />
+          <Route path="/app/systems" component={Systems} />
         </Switch>
       </main>
     </div>
