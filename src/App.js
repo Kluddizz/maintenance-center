@@ -27,21 +27,21 @@ import LocationCityIcon from "@material-ui/icons/LocationCity";
 import { makeStyles } from "@material-ui/core/styles";
 
 const drawerWidth = 350;
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex"
+    display: "flex",
   },
 
   drawer: {
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
-      flexShrink: 0
-    }
+      flexShrink: 0,
+    },
   },
 
   drawerPaper: {
     width: drawerWidth,
-    background: "#414B61"
+    background: "#414B61",
   },
 
   appBar: {
@@ -49,12 +49,12 @@ const useStyles = makeStyles(theme => ({
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
       background: "#fff",
-      color: theme.palette.text.primary
-    }
+      color: theme.palette.text.primary,
+    },
   },
 
   appToolbar: {
-    paddingRight: 0
+    paddingRight: 0,
   },
 
   toolbar: theme.mixins.toolbar,
@@ -62,49 +62,49 @@ const useStyles = makeStyles(theme => ({
   title: {
     color: theme.palette.primary.contrastText,
     lineHeight: `64px`,
-    padding: "0 24px"
+    padding: "0 24px",
   },
 
   pageTitle: {
-    marginRight: "auto"
+    marginRight: "auto",
   },
 
   navItemText: {
-    color: theme.palette.primary.contrastText
+    color: theme.palette.primary.contrastText,
   },
 
   navItemIcon: {
-    color: theme.palette.primary.contrastText
+    color: theme.palette.primary.contrastText,
   },
 
   content: {
     marginTop: 64,
     width: `calc(100vw - ${drawerWidth}px)`,
-    padding: theme.spacing(3)
-  }
+    padding: theme.spacing(3),
+  },
 }));
 
 const navItems = [
   {
     header: "Dashboard",
     icon: <DashboardIcon />,
-    target: "/app/dashboard"
+    target: "/app/dashboard",
   },
   {
     header: "Wartungen",
     icon: <BuildIcon />,
-    target: "/app/maintenances"
+    target: "/app/maintenances",
   },
   {
     header: "Anlagen",
     icon: <LocationCityIcon />,
-    target: "/app/systems"
+    target: "/app/systems",
   },
   {
     header: "Kunden",
     icon: <GroupIcon />,
-    target: "/app/customers"
-  }
+    target: "/app/customers",
+  },
 ];
 
 function App() {
@@ -114,7 +114,7 @@ function App() {
 
   const {
     token: [, setToken],
-    user: [user]
+    user: [user],
   } = useContext(AuthContext);
 
   const handleLogout = () => {
@@ -128,7 +128,7 @@ function App() {
           Bilfinger Wartungscenter
         </Typography>
         <List>
-          {navItems.map(navItem => {
+          {navItems.map((navItem) => {
             const handleClick = () => {
               history.push(navItem.target);
             };
