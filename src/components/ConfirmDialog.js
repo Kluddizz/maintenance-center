@@ -6,7 +6,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 
 const ConfirmDialog = ({ onNo, onYes, title, children, ...props }) => {
-
   return (
     <Dialog {...props}>
       <DialogTitle>{title}</DialogTitle>
@@ -23,7 +22,6 @@ const ConfirmDialog = ({ onNo, onYes, title, children, ...props }) => {
       </DialogActions>
     </Dialog>
   );
-
 };
 
 export default ConfirmDialog;
