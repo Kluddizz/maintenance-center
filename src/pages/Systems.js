@@ -16,7 +16,18 @@ const Systems = ({ ...props }) => {
     <div>
       <Grid container>
         <Grid item xs={12}>
-          <ExtendedTable />
+          <ExtendedTable
+            title="Anlagen"
+            items={[]}
+            headers={[
+              { name: "Name", field: "name" },
+              { name: "Kunde", field: "customerid" },
+              {
+                name: "Adresse",
+                render: (item) => `${item.street}, ${item.zip} ${item.city}`,
+              },
+            ]}
+          />
         </Grid>
       </Grid>
     </div>

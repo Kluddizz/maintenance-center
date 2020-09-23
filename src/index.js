@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 
 import { SnackbarProvider } from "notistack";
@@ -16,6 +16,7 @@ import { AppProvider } from "./contexts/AppContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { CookiesProvider } from "react-cookie";
 import { CustomerProvider } from "./contexts/CustomerContext";
+import { SystemProvider } from "./contexts/SystemContext";
 
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
@@ -27,14 +28,16 @@ ReactDOM.render(
         <AuthProvider>
           <AppProvider>
             <CustomerProvider>
-              <SnackbarProvider
-                maxSnack={3}
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-              >
-                <PrivateRoute path="/app" component={App} />
-                <Route path="/login" component={Login} />
-                <Redirect from="/" to="/app/dashboard" />
-              </SnackbarProvider>
+              <SystemProvider>
+                <SnackbarProvider
+                  maxSnack={3}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                >
+                  <PrivateRoute path="/app" component={App} />
+                  <Route path="/login" component={Login} />
+                  <Redirect from="/" to="/app/dashboard" />
+                </SnackbarProvider>
+              </SystemProvider>
             </CustomerProvider>
           </AppProvider>
         </AuthProvider>
