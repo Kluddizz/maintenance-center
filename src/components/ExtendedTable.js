@@ -4,6 +4,9 @@ import ConfirmDialog from "./ConfirmDialog";
 
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -100,7 +103,7 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
   const changeNewItem = (property, event) => {
     setNewItem({
       ...newItem,
-      [property]: event.currentTarget.value,
+      [property]: event.target.value,
     });
   };
 
@@ -241,16 +244,18 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
                       />
                     </TableCell>
                     {headers.map((header) => (
-                      <TableCell id={header.name}>
+                      <TableCell key={header.name}>
                         {header.render
                           ? header.render(entry)
                           : entry[header.field]}
                       </TableCell>
                     ))}
                     <TableCell>
-                      <IconButton onClick={() => editItem(entry)}>
-                        <EditIcon />
-                      </IconButton>
+                      {actions?.edit?.action ? (
+                        <IconButton onClick={() => editItem(entry)}>
+                          <EditIcon />
+                        </IconButton>
+                      ) : null}
                     </TableCell>
                   </TableRow>
                 );
@@ -264,6 +269,7 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
                   count={entries?.length}
                   rowsPerPage={5}
                   page={0}
+                  onChangePage={() => {}}
                 />
               </TableRow>
             </TableFooter>
@@ -284,11 +290,35 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
 
           {itemFields?.map((field) => {
             switch (field.type) {
+              case "list":
+                return (
+                  <FormControl fullWidth key={field.name}>
+                    <InputLabel id={`select-of-${field.name}`}>
+                      {field.description}
+                    </InputLabel>
+                    <Select
+                      labelId={`select-of-${field.name}`}
+                      onChange={(event) => changeNewItem(field.name, event)}
+                      value={
+                        newItem && newItem[field.name]
+                          ? newItem[field.name]
+                          : ""
+                      }
+                    >
+                      {field.options.list.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option[field.options.mappedField]}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                );
+
               case "string":
               default:
                 return (
                   <TextField
-                    id={field.name}
+                    key={field.name}
                     onChange={(event) => changeNewItem(field.name, event)}
                     label={field.description}
                     fullWidth
@@ -325,6 +355,7 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
               default:
                 return (
                   <TextField
+                    key={field.name}
                     onChange={(event) => changeSelectedItem(field.name, event)}
                     label={field.description}
                     fullWidth

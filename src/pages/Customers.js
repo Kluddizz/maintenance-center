@@ -125,7 +125,7 @@ const Customers = ({ ...props }) => {
               {
                 name: "zip",
                 description: "Postleitzahl",
-                type: "string",
+                type: "integer",
               },
               {
                 name: "city",

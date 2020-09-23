@@ -20,25 +20,25 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   tableHeader: {
-    fontWeight: 900
+    fontWeight: 900,
   },
 
   cardContentRoot: {
     "&:last-child": {
-      paddingBottom: 0
-    }
+      paddingBottom: 0,
+    },
   },
 
   cardContent: {
     paddingLeft: 0,
     paddingRight: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
   },
 
   cardHeader: {
-    display: "flex"
+    display: "flex",
   },
 
   tableActions: {
@@ -47,8 +47,8 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     marginLeft: "auto",
     marginTop: theme.spacing(1),
-    marginRight: theme.spacing(2)
-  }
+    marginRight: theme.spacing(2),
+  },
 }));
 
 const tableHeaders = [
@@ -56,7 +56,7 @@ const tableHeaders = [
   { title: "Kunde" },
   { title: "Termin" },
   { title: "Mitarbeiter" },
-  { title: "Status" }
+  { title: "Status" },
 ];
 
 const maintenances = [
@@ -66,7 +66,7 @@ const maintenances = [
     customer: "DHSV Eiderstedt",
     dueDate: "05.05.2020",
     employee: "Max Mustermann",
-    state: 1
+    state: 1,
   },
   {
     id: 1,
@@ -74,7 +74,7 @@ const maintenances = [
     customer: "DHSV Eiderstedt",
     dueDate: "05.05.2020",
     employee: "Max Mustermann",
-    state: 1
+    state: 1,
   },
   {
     id: 2,
@@ -82,7 +82,7 @@ const maintenances = [
     customer: "DHSV Eiderstedt",
     dueDate: "05.05.2020",
     employee: "Max Mustermann",
-    state: 0
+    state: 0,
   },
   {
     id: 3,
@@ -90,7 +90,7 @@ const maintenances = [
     customer: "DHSV Eiderstedt",
     dueDate: "05.05.2020",
     employee: "Max Mustermann",
-    state: 0
+    state: 0,
   },
   {
     id: 4,
@@ -98,8 +98,8 @@ const maintenances = [
     customer: "DHSV Eiderstedt",
     dueDate: "05.05.2020",
     employee: "Max Mustermann",
-    state: 0
-  }
+    state: 0,
+  },
 ];
 
 const Maintenances = ({ ...props }) => {
@@ -142,7 +142,7 @@ const Maintenances = ({ ...props }) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {maintenances.map(maintenance => (
+                  {maintenances.map((maintenance) => (
                     <TableRow key={maintenance.id}>
                       <TableCell>{maintenance.system}</TableCell>
                       <TableCell>{maintenance.customer}</TableCell>
@@ -162,6 +162,7 @@ const Maintenances = ({ ...props }) => {
                       count={maintenances.length}
                       rowsPerPage={5}
                       page={0}
+                      onChangePage={() => {}}
                     />
                   </TableRow>
                 </TableFooter>
