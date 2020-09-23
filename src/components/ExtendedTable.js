@@ -69,10 +69,10 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-  const [entries, setEntries] = useState(items ?? []);
+  const [entries, setEntries] = useState([]);
 
   useEffect(() => {
-    setEntries(items);
+    setEntries(items ?? []);
   }, [items]);
 
   const closeConfirmDialog = () => {
@@ -150,31 +150,37 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
     <>
       <Card>
         <div className={classes.cardHeader}>
-          <CardHeader title="Kunden" />
+          <CardHeader title={title} />
           <div className={classes.tableActions}>
             <PopupState variant="popover">
               {(popupState) => {
                 return (
                   <>
-                    <IconButton {...bindTrigger(popupState)}>
-                      <MoreVertIcon />
-                    </IconButton>
+                    {actions ? (
+                      <>
+                        <IconButton {...bindTrigger(popupState)}>
+                          <MoreVertIcon />
+                        </IconButton>
 
-                    <Menu {...bindMenu(popupState)}>
-                      {actions?.add ? (
-                        <MenuItem onClick={() => handleMenuItemAdd(popupState)}>
-                          {actions.add.header ?? "Hinzufügen"}
-                        </MenuItem>
-                      ) : null}
+                        <Menu {...bindMenu(popupState)}>
+                          {actions?.add ? (
+                            <MenuItem
+                              onClick={() => handleMenuItemAdd(popupState)}
+                            >
+                              {actions.add.header ?? "Hinzufügen"}
+                            </MenuItem>
+                          ) : null}
 
-                      {actions?.delete ? (
-                        <MenuItem
-                          onClick={() => handleMenuItemDelete(popupState)}
-                        >
-                          {actions.delete.header ?? "Löschen"}
-                        </MenuItem>
-                      ) : null}
-                    </Menu>
+                          {actions?.delete ? (
+                            <MenuItem
+                              onClick={() => handleMenuItemDelete(popupState)}
+                            >
+                              {actions.delete.header ?? "Löschen"}
+                            </MenuItem>
+                          ) : null}
+                        </Menu>
+                      </>
+                    ) : null}
                   </>
                 );
               }}
@@ -191,15 +197,16 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
                 <TableCell padding="checkbox">
                   <Checkbox
                     indeterminate={
-                      selected.length > 0 && selected.length < entries.length
+                      selected?.length > 0 && selected?.length < entries?.length
                     }
                     checked={
-                      entries.length > 0 && selected.length === entries.length
+                      entries?.length > 0 &&
+                      selected?.length === entries?.length
                     }
                     onChange={selectAll}
                   />
                 </TableCell>
-                {headers.map((header, idx) => {
+                {headers?.map((header, idx) => {
                   return (
                     <TableCell className={classes.tableHeader} key={idx}>
                       {header.name}
@@ -210,7 +217,7 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {entries.map((entry) => {
+              {entries?.map((entry) => {
                 const selectItem = (event) => {
                   let newSelected = [];
 
@@ -254,7 +261,7 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
                 <TablePagination
                   labelRowsPerPage="Zeilen pro Seite"
                   rowsPerPageOptions={[5, 10, 25]}
-                  count={entries.length}
+                  count={entries?.length}
                   rowsPerPage={5}
                   page={0}
                 />
@@ -265,11 +272,17 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
       </Card>
 
       <Dialog open={addDialogOpen} onClose={handleAddDialogClose}>
-        <DialogTitle>{actions.add.dialogTitle}</DialogTitle>
+        {actions?.add ? (
+          <DialogTitle>{actions.add.dialogTitle}</DialogTitle>
+        ) : null}
         <DialogContent>
-          <DialogContentText>{actions.add.dialogDescription}</DialogContentText>
+          {actions?.add?.dialogDescription ? (
+            <DialogContentText>
+              {actions.add.dialogDescription}
+            </DialogContentText>
+          ) : null}
 
-          {itemFields.map((field) => {
+          {itemFields?.map((field) => {
             switch (field.type) {
               case "string":
               default:
@@ -297,12 +310,16 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
       </Dialog>
 
       <Dialog open={editDialogOpen} onClose={closeEditDialog}>
-        <DialogTitle>{actions.edit.dialogTitle}</DialogTitle>
+        {actions?.edit?.dialogTitle ? (
+          <DialogTitle>{actions.edit.dialogTitle}</DialogTitle>
+        ) : null}
         <DialogContent>
-          <DialogContentText>
-            {actions.edit.dialogDescription}
-          </DialogContentText>
-          {itemFields.map((field) => {
+          {actions?.edit?.dialogDescription ? (
+            <DialogContentText>
+              {actions.edit.dialogDescription}
+            </DialogContentText>
+          ) : null}
+          {itemFields?.map((field) => {
             switch (field.type) {
               case "string":
               default:
@@ -329,14 +346,16 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
         </DialogActions>
       </Dialog>
 
-      <ConfirmDialog
-        open={confirmDialogOpen}
-        onClose={closeConfirmDialog}
-        onYes={handleConfirmDialogYes}
-        onNo={handleConfirmDialogNo}
-        title={actions.delete.dialogTitle}
-        description={actions.delete.dialogDescription}
-      />
+      {actions?.delete ? (
+        <ConfirmDialog
+          open={confirmDialogOpen}
+          onClose={closeConfirmDialog}
+          onYes={handleConfirmDialogYes}
+          onNo={handleConfirmDialogNo}
+          title={actions.delete.dialogTitle}
+          description={actions.delete.dialogDescription}
+        />
+      ) : null}
     </>
   );
 };
