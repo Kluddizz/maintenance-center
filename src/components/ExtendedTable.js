@@ -351,6 +351,32 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
           ) : null}
           {itemFields?.map((field) => {
             switch (field.type) {
+              case "list":
+                return (
+                  <FormControl fullWidth key={field.name}>
+                    <InputLabel id={`select-of-${field.name}`}>
+                      {field.description}
+                    </InputLabel>
+                    <Select
+                      labelId={`select-of-${field.name}`}
+                      onChange={(event) =>
+                        changeSelectedItem(field.name, event)
+                      }
+                      value={
+                        selectedItem && selectedItem[field.name]
+                          ? selectedItem[field.name]
+                          : ""
+                      }
+                    >
+                      {field.options.list.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option[field.options.mappedField]}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                );
+
               case "string":
               default:
                 return (
