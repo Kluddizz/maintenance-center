@@ -3,6 +3,7 @@ import AppContext from "../contexts/AppContext";
 
 import StateChip from "../components/StateChip";
 
+import ExtendedTable from "../components/ExtendedTable";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Table from "@material-ui/core/Table";
@@ -103,6 +104,8 @@ const maintenances = [
 ];
 
 const Maintenances = ({ ...props }) => {
+  const handleAdd = async () => {};
+
   const classes = useStyles();
 
   const [, setTitle] = useContext(AppContext);
@@ -169,6 +172,28 @@ const Maintenances = ({ ...props }) => {
               </Table>
             </CardContent>
           </Card>
+        </Grid>
+        <Grid item xs={12}>
+          <ExtendedTable
+            title="Wartungen"
+            items={maintenances}
+            headers={[
+              { name: "Anlage", field: "system" },
+              { name: "Kunde", field: "customer" },
+              { name: "Termin", field: "dueDate" },
+              { name: "Mitarbeiter", field: "employee" },
+              { name: "Status", field: "state" },
+            ]}
+            itemFields={[
+              { name: "system", description: "Anlage", type: "string" },
+            ]}
+            actions={{
+              add: {
+                header: "Wartung hinzufügen",
+                action: handleAdd,
+              },
+            }}
+          />
         </Grid>
       </Grid>
     </div>
