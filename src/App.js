@@ -62,11 +62,16 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: theme.palette.primary.contrastText,
     lineHeight: `64px`,
-    padding: "0 24px",
+    padding: "0 16px",
   },
 
   pageTitle: {
     marginRight: "auto",
+  },
+
+  navOverline: {
+    color: theme.palette.primary.contrastText,
+    opacity: 0.6,
   },
 
   navItemText: {
@@ -84,12 +89,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const navItems = [
+const navItemsGeneral = [
   {
     header: "Dashboard",
     icon: <DashboardIcon />,
     target: "/app/dashboard",
   },
+];
+
+const navItemsManagement = [
   {
     header: "Wartungen",
     icon: <BuildIcon />,
@@ -128,7 +136,32 @@ function App() {
           Bilfinger Wartungscenter
         </Typography>
         <List>
-          {navItems.map((navItem) => {
+          {navItemsGeneral.map((navItem) => {
+            const handleClick = () => {
+              history.push(navItem.target);
+            };
+
+            return (
+              <ListItem button onClick={handleClick} key={navItem.header}>
+                <ListItemIcon className={classes.navItemIcon}>
+                  {navItem.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={navItem.header}
+                  className={classes.navItemText}
+                />
+              </ListItem>
+            );
+          })}
+        </List>
+
+        <List>
+          <ListItem>
+            <Typography className={classes.navOverline} variant="overline">
+              Verwaltung
+            </Typography>
+          </ListItem>
+          {navItemsManagement.map((navItem) => {
             const handleClick = () => {
               history.push(navItem.target);
             };
