@@ -5,23 +5,23 @@ export default class Auth {
     const request = await fetch(`${BACKEND_SERVER}/login`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         username: username,
-        password: password
-      })
+        password: password,
+      }),
     });
 
     return await request.json();
   }
 
-  static async getUser(token) {
-    const request = await fetch(`${BACKEND_SERVER}/users`, {
+  static async getUser(token, id) {
+    const request = await fetch(`${BACKEND_SERVER}/users/${id}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     return await request.json();

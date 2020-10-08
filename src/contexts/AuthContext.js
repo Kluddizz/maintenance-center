@@ -5,7 +5,7 @@ import Auth from "../services/Auth";
 
 const AuthContext = createContext();
 
-const useCookie = key => {
+const useCookie = (key) => {
   const [cookies, setCookie] = useCookies([key]);
   const [value, setValue] = useState(cookies[key]);
 
@@ -22,12 +22,18 @@ const AuthProvider = ({ ...props }) => {
   const [user, setUser] = useState();
 
   const updateUser = useCallback(async () => {
-    const response = await Auth.getUser(token);
+    if (payload) {
+      const response = await Auth.getUser(token, payload.id);
 
-    if (response.success) {
-      setUser(response.user);
+      if (response.success) {
+        setUser(response.user);
+      }
     }
-  }, [token]);
+  }, [token, payload]);
+
+  useEffect(() => {
+    updateUser();
+  }, [updateUser]);
 
   useEffect(() => {
     if (token && token !== "null" && token !== "undefined") {
@@ -36,15 +42,14 @@ const AuthProvider = ({ ...props }) => {
       if (parts.length === 3) {
         const payload = JSON.parse(atob(parts[1]));
         setPayload(payload);
-        updateUser();
       }
     }
-  }, [token, updateUser]);
+  }, [token]);
 
   const value = {
     token: [token, setToken],
     payload: [payload, setPayload],
-    user: [user, updateUser]
+    user: [user, updateUser],
   };
 
   return (

@@ -3,6 +3,7 @@ import { useHistory, Switch, Route } from "react-router-dom";
 import "./App.css";
 
 import { MaintenanceProvider } from "./contexts/MaintenanceContext";
+import { UserProvider } from "./contexts/UserContext";
 import AppContext from "./contexts/AppContext";
 import AuthContext from "./contexts/AuthContext";
 import Dashboard from "./pages/Dashboard";
@@ -215,12 +216,14 @@ function App() {
       </nav>
       <main className={classes.content}>
         <Switch>
-          <MaintenanceProvider>
-            <Route path="/app/dashboard" component={Dashboard} />
-            <Route path="/app/maintenances" component={Maintenances} />
-            <Route path="/app/customers" component={Customers} />
-            <Route path="/app/systems" component={Systems} />
-          </MaintenanceProvider>
+          <UserProvider>
+            <MaintenanceProvider>
+              <Route path="/app/dashboard" component={Dashboard} />
+              <Route path="/app/maintenances" component={Maintenances} />
+              <Route path="/app/customers" component={Customers} />
+              <Route path="/app/systems" component={Systems} />
+            </MaintenanceProvider>
+          </UserProvider>
         </Switch>
       </main>
     </div>
