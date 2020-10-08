@@ -36,10 +36,32 @@ const Maintenances = ({ ...props }) => {
   };
 
   const handleEdit = async (item) => {
-    console.log(item);
+    const response = await Database.editMaintenance(token, item);
+
+    if (response.success) {
+      enqueueSnackbar("Wartung wurde geändert", { variant: "success" });
+      updateMaintenances();
+    } else {
+      enqueueSnackbar("Wartung konnte nicht geändert werden", {
+        variant: "error",
+      });
+    }
   };
 
-  const handleDelete = async (item) => {};
+  const handleDelete = async (items) => {
+    for (let item of items) {
+      const response = await Database.deleteMaintenance(token, item);
+
+      if (response.success) {
+        enqueueSnackbar("Wartung wurde entfernt", { variant: "success" });
+        updateMaintenances();
+      } else {
+        enqueueSnackbar("Wartung konnte nicht entfernt werden", {
+          variant: "error",
+        });
+      }
+    }
+  };
 
   useEffect(() => {
     setTitle("Wartungen");

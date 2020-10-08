@@ -12,6 +12,36 @@ export default class Database {
     return await request.json();
   }
 
+  static async deleteMaintenance(token, maintenance) {
+    const request = await fetch(
+      `${BACKEND_SERVER}/maintenance/${maintenance.id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return await request.json();
+  }
+
+  static async editMaintenance(token, maintenance) {
+    const request = await fetch(
+      `${BACKEND_SERVER}/maintenance/${maintenance.id}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(maintenance),
+      }
+    );
+
+    return await request.json();
+  }
+
   static async createMaintenance(token, maintenance) {
     const request = await fetch(`${BACKEND_SERVER}/maintenance`, {
       method: "POST",
