@@ -14,6 +14,10 @@ const Maintenances = ({ ...props }) => {
     console.log(item);
   };
 
+  const handleEdit = async (item) => {};
+
+  const handleDelete = async (item) => {};
+
   const [maintenances, updateMaintenances] = useContext(MaintenanceContext);
   const [systems] = useContext(SystemContext);
   const [users] = useContext(UserContext);
@@ -56,11 +60,31 @@ const Maintenances = ({ ...props }) => {
                   mapField: (item) => `${item.firstname} ${item.lastname}`,
                 },
               },
+              {
+                name: "frequency",
+                description: "Anzahl der Monate bis zur Wiederholung",
+                type: "integer",
+              },
             ]}
             actions={{
               add: {
                 header: "Wartung hinzufügen",
+                dialogTitle: "Neue Wartung hinzufügen",
+                dialogDescription: "Füllen Sie folgendes Formular aus.",
                 action: handleAdd,
+              },
+              edit: {
+                dialogTitle: "Vorhandene Wartung bearbeiten",
+                dialogDescription:
+                  "Ändern Sie folgende Felder, um die Wartung zu bearbeiten.",
+                action: handleEdit,
+              },
+              delete: {
+                header: "Wartung löschen",
+                dialogTitle: "Möchten Sie diese Wartungen wirklich löschen?",
+                dialogDescription:
+                  "Diese Aktion kann nicht mehr rückgängig gemacht werden.",
+                action: handleDelete,
               },
             }}
           />

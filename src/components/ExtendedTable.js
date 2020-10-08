@@ -61,6 +61,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(2),
   },
+
+  dialog: {
+    minWidth: 600,
+  },
 }));
 
 const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
@@ -277,7 +281,11 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
         </CardContent>
       </Card>
 
-      <Dialog open={addDialogOpen} onClose={handleAddDialogClose}>
+      <Dialog
+        classes={{ paper: classes.dialog }}
+        open={addDialogOpen}
+        onClose={handleAddDialogClose}
+      >
         {actions?.add ? (
           <DialogTitle>{actions.add.dialogTitle}</DialogTitle>
         ) : null}
@@ -339,7 +347,11 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
         </DialogActions>
       </Dialog>
 
-      <Dialog open={editDialogOpen} onClose={closeEditDialog}>
+      <Dialog
+        className={classes.dialog}
+        open={editDialogOpen}
+        onClose={closeEditDialog}
+      >
         {actions?.edit?.dialogTitle ? (
           <DialogTitle>{actions.edit.dialogTitle}</DialogTitle>
         ) : null}
