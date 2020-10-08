@@ -1,58 +1,17 @@
 import React, { useContext, useEffect } from "react";
 import AppContext from "../contexts/AppContext";
 import SystemContext from "../contexts/SystemContext";
+import MaintenanceContext from "../contexts/MaintenanceContext";
 
 import StateChip from "../components/StateChip";
 
 import ExtendedTable from "../components/ExtendedTable";
 import Grid from "@material-ui/core/Grid";
 
-const maintenances = [
-  {
-    id: 0,
-    system: "Kläranlage Eiderstedt",
-    customer: "DHSV Eiderstedt",
-    dueDate: "05.05.2020",
-    employee: "Max Mustermann",
-    state: 1,
-  },
-  {
-    id: 1,
-    system: "Kläranlage Eiderstedt",
-    customer: "DHSV Eiderstedt",
-    dueDate: "05.05.2020",
-    employee: "Max Mustermann",
-    state: 1,
-  },
-  {
-    id: 2,
-    system: "Kläranlage Eiderstedt",
-    customer: "DHSV Eiderstedt",
-    dueDate: "05.05.2020",
-    employee: "Max Mustermann",
-    state: 0,
-  },
-  {
-    id: 3,
-    system: "Kläranlage Eiderstedt",
-    customer: "DHSV Eiderstedt",
-    dueDate: "05.05.2020",
-    employee: "Max Mustermann",
-    state: 0,
-  },
-  {
-    id: 4,
-    system: "Kläranlage Eiderstedt",
-    customer: "DHSV Eiderstedt",
-    dueDate: "05.05.2020",
-    employee: "Max Mustermann",
-    state: 0,
-  },
-];
-
 const Maintenances = ({ ...props }) => {
   const handleAdd = async () => {};
 
+  const [maintenances] = useContext(MaintenanceContext);
   const [systems] = useContext(SystemContext);
   const [, setTitle] = useContext(AppContext);
 
