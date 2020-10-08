@@ -35,7 +35,9 @@ const Maintenances = ({ ...props }) => {
     }
   };
 
-  const handleEdit = async (item) => {};
+  const handleEdit = async (item) => {
+    console.log(item);
+  };
 
   const handleDelete = async (item) => {};
 
