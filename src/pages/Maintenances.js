@@ -35,7 +35,7 @@ const Maintenances = ({ ...props }) => {
               { name: "Kunde", field: "customerid" },
               { name: "Termin", field: "dueDate" },
               { name: "Mitarbeiter", field: "userid" },
-              { name: "Status", field: "state" },
+              { name: "Status", field: "stateid" },
             ]}
             itemFields={[
               {
