@@ -97,7 +97,7 @@ const Systems = ({ ...props }) => {
                 type: "list",
                 options: {
                   list: customers,
-                  mappedField: "name",
+                  mapField: (item) => item.name,
                 },
               },
               {

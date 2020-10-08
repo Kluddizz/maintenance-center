@@ -44,7 +44,7 @@ const Maintenances = ({ ...props }) => {
                 type: "list",
                 options: {
                   list: systems,
-                  mappedField: "name",
+                  mapField: (item) => item.name,
                 },
               },
               {
@@ -53,7 +53,7 @@ const Maintenances = ({ ...props }) => {
                 type: "list",
                 options: {
                   list: users,
-                  mappedField: "username",
+                  mapField: (item) => `${item.firstname} ${item.lastname}`,
                 },
               },
             ]}

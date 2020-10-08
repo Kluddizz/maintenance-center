@@ -307,7 +307,7 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
                     >
                       {field.options.list.map((option) => (
                         <MenuItem key={option.id} value={option.id}>
-                          {option[field.options.mappedField]}
+                          {field.options.mapField(option)}
                         </MenuItem>
                       ))}
                     </Select>
