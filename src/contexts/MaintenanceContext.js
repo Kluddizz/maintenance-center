@@ -8,6 +8,7 @@ import React, {
 
 import Database from "../services/Database";
 import AuthContext from "./AuthContext";
+import { calcDueDate } from "../utils/DateUtils";
 
 const MaintenanceContext = createContext();
 
@@ -22,7 +23,11 @@ const MaintenanceProvider = ({ ...props }) => {
     const response = await Database.getMaintenances(token);
 
     if (response.success) {
-      setMaintenances(response.maintenances);
+      const mapped = response.maintenances.map((m) => ({
+        ...m,
+        dueDate: calcDueDate(m.start_date, m.frequency),
+      }));
+      setMaintenances(mapped);
     }
   }, [token]);
 

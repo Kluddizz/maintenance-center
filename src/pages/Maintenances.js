@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useSnackbar } from "notistack";
+import dateFormat from "dateformat";
 
 import Database from "../services/Database";
 import AppContext from "../contexts/AppContext";
@@ -81,8 +82,11 @@ const Maintenances = ({ ...props }) => {
                 render: (item) =>
                   systems.find((s) => s.id === item.systemid)?.name,
               },
-              { name: "Kunde", field: "customerid" },
-              { name: "Termin", field: "dueDate" },
+              { name: "Kunde", field: "customer_name" },
+              {
+                name: "Termin",
+                render: (item) => dateFormat(item.dueDate, "dd.mm.yyyy"),
+              },
               {
                 name: "Mitarbeiter",
                 render: (item) => {
@@ -90,7 +94,12 @@ const Maintenances = ({ ...props }) => {
                   return `${user?.firstname} ${user?.lastname}`;
                 },
               },
-              { name: "Status", field: "stateid" },
+              {
+                name: "Status",
+                render: (item) => (
+                  <StateChip label={item.state_name} color={item.state_color} />
+                ),
+              },
             ]}
             itemFields={[
               {
