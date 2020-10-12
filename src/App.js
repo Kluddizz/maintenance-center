@@ -135,7 +135,7 @@ function App() {
     <div>
       <div className={classes.toolbar}>
         <Typography variant="h6" className={classes.title}>
-          Bilfinger Wartungscenter
+          Wartungscenter
         </Typography>
         <List>
           {navItemsGeneral.map((navItem) => {
