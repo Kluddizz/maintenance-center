@@ -6,7 +6,7 @@ export const calcDueDate = (startDateString, frequency) => {
   // Check if the start date is in the past
   if (start < now) {
     const months = calcMonthDiff(now, start);
-    const monthsInFuture = ((months % frequency) - 1) * frequency;
+    const monthsInFuture = Math.abs(((months % frequency) - 1) * frequency);
     result = new Date(start.setMonth(start.getMonth() + monthsInFuture));
   }
 
