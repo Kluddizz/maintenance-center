@@ -2,6 +2,9 @@ import React, { useContext } from "react";
 import { useHistory, Switch, Route } from "react-router-dom";
 import "./App.css";
 
+import { StateProvider } from "./contexts/StateContext";
+import { SystemProvider } from "./contexts/SystemContext";
+import { CustomerProvider } from "./contexts/CustomerContext";
 import { MaintenanceProvider } from "./contexts/MaintenanceContext";
 import { UserProvider } from "./contexts/UserContext";
 import AppContext from "./contexts/AppContext";
@@ -217,12 +220,18 @@ function App() {
       <main className={classes.content}>
         <Switch>
           <UserProvider>
-            <MaintenanceProvider>
-              <Route path="/app/dashboard" component={Dashboard} />
-              <Route path="/app/maintenances" component={Maintenances} />
-              <Route path="/app/customers" component={Customers} />
-              <Route path="/app/systems" component={Systems} />
-            </MaintenanceProvider>
+            <CustomerProvider>
+              <SystemProvider>
+                <MaintenanceProvider>
+                  <StateProvider>
+                    <Route path="/app/dashboard" component={Dashboard} />
+                    <Route path="/app/maintenances" component={Maintenances} />
+                    <Route path="/app/customers" component={Customers} />
+                    <Route path="/app/systems" component={Systems} />
+                  </StateProvider>
+                </MaintenanceProvider>
+              </SystemProvider>
+            </CustomerProvider>
           </UserProvider>
         </Switch>
       </main>
