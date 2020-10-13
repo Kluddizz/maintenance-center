@@ -114,7 +114,7 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
   const changeSelectedItem = (property, event) => {
     setSelectedItem({
       ...selectedItem,
-      [property]: event.currentTarget.value,
+      [property]: event.target.value,
     });
   };
 

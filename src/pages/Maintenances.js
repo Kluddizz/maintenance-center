@@ -8,6 +8,7 @@ import AuthContext from "../contexts/AuthContext";
 import SystemContext from "../contexts/SystemContext";
 import MaintenanceContext from "../contexts/MaintenanceContext";
 import UserContext from "../contexts/UserContext";
+import StateContext from "../contexts/StateContext";
 
 import StateChip from "../components/StateChip";
 import ExtendedTable from "../components/ExtendedTable";
@@ -19,6 +20,7 @@ const Maintenances = ({ ...props }) => {
   } = useContext(AuthContext);
   const [maintenances, updateMaintenances] = useContext(MaintenanceContext);
   const [systems] = useContext(SystemContext);
+  const [states] = useContext(StateContext);
   const [users] = useContext(UserContext);
   const [, setTitle] = useContext(AppContext);
   const { enqueueSnackbar } = useSnackbar();
@@ -126,9 +128,23 @@ const Maintenances = ({ ...props }) => {
                 },
               },
               {
+                name: "start_date",
+                description: "Startzeitpunkt",
+                type: "datetime",
+              },
+              {
                 name: "frequency",
                 description: "Anzahl der Monate bis zur Wiederholung",
                 type: "integer",
+              },
+              {
+                name: "stateid",
+                description: "Status",
+                type: "list",
+                options: {
+                  list: states,
+                  mapField: (item) => item.name,
+                },
               },
             ]}
             actions={{
