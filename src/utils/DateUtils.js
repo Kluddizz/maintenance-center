@@ -10,7 +10,7 @@ export const calcDueDate = (startDateString, frequency) => {
     result = new Date(start.setMonth(start.getMonth() + monthInFuture));
   }
 
-  return result.toString();
+  return result;
 };
 
 export const monthDiff = (date1, date2) => {
