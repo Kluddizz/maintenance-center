@@ -5,6 +5,7 @@ import SystemContext from "../contexts/SystemContext";
 import CustomerContext from "../contexts/CustomerContext";
 import Database from "../services/Database";
 import ExtendedTable from "../components/ExtendedTable";
+import { parseAddress } from "../utils/StringUtils";
 
 import { useSnackbar } from "notistack";
 
@@ -82,7 +83,8 @@ const Systems = ({ ...props }) => {
               },
               {
                 name: "Adresse",
-                render: (item) => `${item.street}, ${item.zip} ${item.city}`,
+                render: (item) =>
+                  parseAddress(item.street, item.zip, item.city),
               },
             ]}
             itemFields={[
