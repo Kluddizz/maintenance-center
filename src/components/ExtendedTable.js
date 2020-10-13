@@ -399,7 +399,7 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
                     fullWidth
                     margin="dense"
                     autoFocus
-                    value={selectedItem ? selectedItem[field.name] : null}
+                    value={selectedItem ? selectedItem[field.name] : ""}
                   />
                 );
             }
