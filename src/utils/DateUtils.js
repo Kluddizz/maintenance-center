@@ -5,18 +5,18 @@ export const calcDueDate = (startDateString, frequency) => {
 
   // Check if the start date is in the past
   if (start < now) {
-    const months = calcMonthDiff(now, start);
-    const monthsInFuture = Math.abs(((months % frequency) - 1) * frequency);
-    result = new Date(start.setMonth(start.getMonth() + monthsInFuture));
+    const month = monthDiff(now, start);
+    const monthInFuture = month + frequency - (month % frequency);
+    result = new Date(start.setMonth(start.getMonth() + monthInFuture));
   }
 
   return result.toString();
 };
 
-export const calcMonthDiff = (date1, date2) => {
-  let months =
+export const monthDiff = (date1, date2) => {
+  return (
     (date1.getFullYear() - date2.getFullYear()) * 12 +
     date1.getMonth() -
-    date2.getMonth();
-  return months <= 0 ? 0 : months;
+    date2.getMonth()
+  );
 };
