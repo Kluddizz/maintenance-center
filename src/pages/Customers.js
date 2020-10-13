@@ -4,6 +4,7 @@ import CustomerContext from "../contexts/CustomerContext";
 import AuthContext from "../contexts/AuthContext";
 import Database from "../services/Database";
 import ExtendedTable from "../components/ExtendedTable";
+import { parseAddress } from "../utils/StringUtils";
 
 import { useSnackbar } from "notistack";
 
@@ -79,7 +80,8 @@ const Customers = ({ ...props }) => {
               { name: "Ansprechparner", field: "contactperson" },
               {
                 name: "Adresse",
-                render: (item) => `${item.street}, ${item.zip} ${item.city}`,
+                render: (item) =>
+                  parseAddress(item.street, item.zip, item.city),
               },
               { name: "E-Mail", field: "email" },
               { name: "Telefon", field: "phone" },
