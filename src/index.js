@@ -16,6 +16,9 @@ import { AppProvider } from "./contexts/AppContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { CookiesProvider } from "react-cookie";
 
+import MomentUtils from "@date-io/moment";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
 
@@ -25,14 +28,16 @@ ReactDOM.render(
       <CookiesProvider>
         <AuthProvider>
           <AppProvider>
-            <SnackbarProvider
-              maxSnack={3}
-              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            >
-              <PrivateRoute path="/app" component={App} />
-              <Route path="/login" component={Login} />
-              <Redirect from="/" to="/app/dashboard" />
-            </SnackbarProvider>
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              <SnackbarProvider
+                maxSnack={3}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              >
+                <PrivateRoute path="/app" component={App} />
+                <Route path="/login" component={Login} />
+                <Redirect from="/" to="/app/dashboard" />
+              </SnackbarProvider>
+            </MuiPickersUtilsProvider>
           </AppProvider>
         </AuthProvider>
       </CookiesProvider>

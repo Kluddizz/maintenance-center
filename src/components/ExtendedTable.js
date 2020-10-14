@@ -4,6 +4,7 @@ import ConfirmDialog from "./ConfirmDialog";
 
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 
+import { DatePicker } from "@material-ui/pickers";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -105,17 +106,31 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
   };
 
   const changeNewItem = (property, event) => {
-    setNewItem({
-      ...newItem,
-      [property]: event.target.value,
-    });
+    if (event._isAMomentObject) {
+      setNewItem({
+        ...newItem,
+        [property]: event.toISOString(),
+      });
+    } else {
+      setNewItem({
+        ...newItem,
+        [property]: event.target.value,
+      });
+    }
   };
 
   const changeSelectedItem = (property, event) => {
-    setSelectedItem({
-      ...selectedItem,
-      [property]: event.target.value,
-    });
+    if (event._isAMomentObject) {
+      setSelectedItem({
+        ...selectedItem,
+        [property]: event.toISOString(),
+      });
+    } else {
+      setSelectedItem({
+        ...selectedItem,
+        [property]: event.target.value,
+      });
+    }
   };
 
   const handleAddItem = async () => {
@@ -322,6 +337,20 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
                   </FormControl>
                 );
 
+              case "datetime":
+                return (
+                  <DatePicker
+                    key={field.name}
+                    label={field.description}
+                    onChange={(event) => changeNewItem(field.name, event)}
+                    value={
+                      newItem && newItem[field.name] ? newItem[field.name] : ""
+                    }
+                    fullWidth
+                    animateYearScrolling
+                  />
+                );
+
               case "string":
               default:
                 return (
@@ -387,6 +416,18 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
                       ))}
                     </Select>
                   </FormControl>
+                );
+
+              case "datetime":
+                return (
+                  <DatePicker
+                    key={field.name}
+                    label={field.description}
+                    value={selectedItem ? selectedItem[field.name] : ""}
+                    onChange={(event) => changeSelectedItem(field.name, event)}
+                    fullWidth
+                    animateYearScrolling
+                  />
                 );
 
               case "string":
