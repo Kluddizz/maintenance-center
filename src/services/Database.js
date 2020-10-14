@@ -1,6 +1,20 @@
 import { BACKEND_SERVER } from "../constants/external";
 
 export default class Database {
+  static async getStatistics(token, stateId) {
+    const request = await fetch(
+      `${BACKEND_SERVER}/maintenance/statistics/state/${stateId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return await request.json();
+  }
+
   static async getStates(token) {
     const request = await fetch(`${BACKEND_SERVER}/state`, {
       method: "GET",

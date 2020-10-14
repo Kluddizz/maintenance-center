@@ -1,5 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import AppContext from "../contexts/AppContext";
+import AuthContext from "../contexts/AuthContext";
+import Database from "../services/Database";
 
 import ProgressCard from "../components/ProgressCard";
 import StateChip from "../components/StateChip";
@@ -50,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#02a7ee",
   },
 
-  invoiceCardBar: {
+  payedCardBar: {
     background: "#02eeb5",
   },
 }));
@@ -63,56 +65,38 @@ const tableHeaders = [
   { title: "Status" },
 ];
 
-const maintenances = [
-  {
-    id: 0,
-    system: "Kläranlage Eiderstedt",
-    customer: "DHSV Eiderstedt",
-    dueDate: "05.05.2020",
-    employee: "Max Mustermann",
-    state: 1,
-  },
-  {
-    id: 1,
-    system: "Kläranlage Eiderstedt",
-    customer: "DHSV Eiderstedt",
-    dueDate: "05.05.2020",
-    employee: "Max Mustermann",
-    state: 1,
-  },
-  {
-    id: 2,
-    system: "Kläranlage Eiderstedt",
-    customer: "DHSV Eiderstedt",
-    dueDate: "05.05.2020",
-    employee: "Max Mustermann",
-    state: 0,
-  },
-  {
-    id: 3,
-    system: "Kläranlage Eiderstedt",
-    customer: "DHSV Eiderstedt",
-    dueDate: "05.05.2020",
-    employee: "Max Mustermann",
-    state: 0,
-  },
-  {
-    id: 4,
-    system: "Kläranlage Eiderstedt",
-    customer: "DHSV Eiderstedt",
-    dueDate: "05.05.2020",
-    employee: "Max Mustermann",
-    state: 0,
-  },
-];
-
 const Dashboard = ({ ...props }) => {
   const classes = useStyles();
+
+  const {
+    token: [token],
+  } = useContext(AuthContext);
   const [, setTitle] = useContext(AppContext);
+  const [maintenanceStats, setMaintenanceStats] = useState({});
+  const [protocolStats, setProtocolStats] = useState({});
+  const [payedStats, setPayedStats] = useState({});
 
   useEffect(() => {
     setTitle("Dashboard");
-  }, [setTitle]);
+
+    Database.getStatistics(token, 3).then((res) => {
+      if (res.success) {
+        setMaintenanceStats(res.statistics);
+      }
+    });
+
+    Database.getStatistics(token, 4).then((res) => {
+      if (res.success) {
+        setProtocolStats(res.statistics);
+      }
+    });
+
+    Database.getStatistics(token, 5).then((res) => {
+      if (res.success) {
+        setPayedStats(res.statistics);
+      }
+    });
+  }, [setTitle, token]);
 
   return (
     <div>
@@ -121,7 +105,8 @@ const Dashboard = ({ ...props }) => {
           <ProgressCard
             title="Abgeschlossene Wartungen"
             subtitle="in diesem Jahr"
-            value={60}
+            value={maintenanceStats.actual}
+            max={maintenanceStats.total}
             className={classes.card}
             progressClasses={{
               bar: classes.maintenanceCardBar,
@@ -133,7 +118,8 @@ const Dashboard = ({ ...props }) => {
           <ProgressCard
             title="Angefertigte Protokolle"
             subtitle="in diesem Jahr"
-            value={60}
+            value={protocolStats.actual}
+            max={protocolStats.total}
             className={classes.card}
             progressClasses={{
               bar: classes.protocolCardBar,
@@ -145,10 +131,11 @@ const Dashboard = ({ ...props }) => {
           <ProgressCard
             title="Bezahlte Rechnungen"
             subtitle="in diesem Jahr"
-            value={60}
+            value={payedStats.actual}
+            max={payedStats.total}
             className={classes.card}
             progressClasses={{
-              bar: classes.invoiceCardBar,
+              bar: classes.payedCardBar,
               colorPrimary: classes.progressColorPrimary,
             }}
           ></ProgressCard>
@@ -173,25 +160,13 @@ const Dashboard = ({ ...props }) => {
                     })}
                   </TableRow>
                 </TableHead>
-                <TableBody>
-                  {maintenances.map((maintenance) => (
-                    <TableRow key={maintenance.id}>
-                      <TableCell>{maintenance.system}</TableCell>
-                      <TableCell>{maintenance.customer}</TableCell>
-                      <TableCell>{maintenance.dueDate}</TableCell>
-                      <TableCell>{maintenance.employee}</TableCell>
-                      <TableCell>
-                        <StateChip state={maintenance.state} />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
+                <TableBody></TableBody>
                 <TableFooter>
                   <TableRow>
                     <TablePagination
                       labelRowsPerPage="Zeilen pro Seite"
                       rowsPerPageOptions={[5, 10, 25]}
-                      count={maintenances.length}
+                      count={10}
                       rowsPerPage={5}
                       page={0}
                       onChangePage={() => {}}
