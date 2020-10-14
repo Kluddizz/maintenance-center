@@ -7,15 +7,23 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   progressLabel: {
     display: "flex",
     justifyContent: "space-between",
-    marginBottom: theme.spacing(1)
-  }
+    marginBottom: theme.spacing(1),
+  },
 }));
 
-const ProgressCard = ({ title, subtitle, value = 0, max = 100, ...props }) => {
+const ProgressCard = ({
+  color,
+  title,
+  subtitle,
+  value = 0,
+  max = 100,
+  progressClasses,
+  ...props
+}) => {
   const classes = useStyles();
 
   const percentage = parseInt((value / max) * 100.0);
@@ -31,7 +39,7 @@ const ProgressCard = ({ title, subtitle, value = 0, max = 100, ...props }) => {
           <Typography variant="body1">{percentage}%</Typography>
         </div>
         <LinearProgress
-          color="secondary"
+          classes={progressClasses}
           variant="determinate"
           value={percentage}
         />

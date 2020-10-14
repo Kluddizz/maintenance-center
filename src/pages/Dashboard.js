@@ -37,6 +37,22 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 0,
     paddingBottom: 0,
   },
+
+  progressColorPrimary: {
+    background: "rgba(0, 0, 0, 0.15)",
+  },
+
+  maintenanceCardBar: {
+    background: "#ee0281",
+  },
+
+  protocolCardBar: {
+    background: "#02a7ee",
+  },
+
+  invoiceCardBar: {
+    background: "#02eeb5",
+  },
 }));
 
 const tableHeaders = [
@@ -107,6 +123,10 @@ const Dashboard = ({ ...props }) => {
             subtitle="in diesem Jahr"
             value={60}
             className={classes.card}
+            progressClasses={{
+              bar: classes.maintenanceCardBar,
+              colorPrimary: classes.progressColorPrimary,
+            }}
           ></ProgressCard>
         </Grid>
         <Grid item xs={4}>
@@ -115,6 +135,10 @@ const Dashboard = ({ ...props }) => {
             subtitle="in diesem Jahr"
             value={60}
             className={classes.card}
+            progressClasses={{
+              bar: classes.protocolCardBar,
+              colorPrimary: classes.progressColorPrimary,
+            }}
           ></ProgressCard>
         </Grid>
         <Grid item xs={4}>
@@ -123,6 +147,10 @@ const Dashboard = ({ ...props }) => {
             subtitle="in diesem Jahr"
             value={60}
             className={classes.card}
+            progressClasses={{
+              bar: classes.invoiceCardBar,
+              colorPrimary: classes.progressColorPrimary,
+            }}
           ></ProgressCard>
         </Grid>
         <Grid item xs={12}>
