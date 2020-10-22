@@ -7,17 +7,8 @@ import ProgressCard from "../components/ProgressCard";
 import StateChip from "../components/StateChip";
 
 import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TableFooter from "@material-ui/core/TableFooter";
-import TablePagination from "@material-ui/core/TablePagination";
 import { makeStyles } from "@material-ui/core/styles";
+import ExtendedTable from "../components/ExtendedTable";
 
 const useStyles = makeStyles((theme) => ({
   tableHeader: {
@@ -72,6 +63,7 @@ const Dashboard = ({ ...props }) => {
     token: [token],
   } = useContext(AuthContext);
   const [, setTitle] = useContext(AppContext);
+  const [maintenances, setMaintenances] = useState([]);
   const [maintenanceStats, setMaintenanceStats] = useState({});
   const [protocolStats, setProtocolStats] = useState({});
   const [payedStats, setPayedStats] = useState({});
@@ -141,41 +133,10 @@ const Dashboard = ({ ...props }) => {
           ></ProgressCard>
         </Grid>
         <Grid item xs={12}>
-          <Card className={classes.card}>
-            <CardHeader title="Anstehende Wartungen" />
-
-            <CardContent
-              className={classes.cardContent}
-              classes={{ root: classes.cardContentRoot }}
-            >
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    {tableHeaders.map((header, idx) => {
-                      return (
-                        <TableCell className={classes.tableHeader} key={idx}>
-                          {header.title}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                </TableHead>
-                <TableBody></TableBody>
-                <TableFooter>
-                  <TableRow>
-                    <TablePagination
-                      labelRowsPerPage="Zeilen pro Seite"
-                      rowsPerPageOptions={[5, 10, 25]}
-                      count={10}
-                      rowsPerPage={5}
-                      page={0}
-                      onChangePage={() => {}}
-                    />
-                  </TableRow>
-                </TableFooter>
-              </Table>
-            </CardContent>
-          </Card>
+          <ExtendedTable
+            title="Anstehende Wartungen in diesem Jahr"
+            items={maintenances}
+          />
         </Grid>
       </Grid>
     </div>
