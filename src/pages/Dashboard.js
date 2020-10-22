@@ -1,14 +1,17 @@
 import React, { useState, useContext, useEffect } from "react";
 import AppContext from "../contexts/AppContext";
 import AuthContext from "../contexts/AuthContext";
+import SystemContext from "../contexts/SystemContext";
+import UserContext from "../contexts/UserContext";
 import Database from "../services/Database";
 
 import ProgressCard from "../components/ProgressCard";
 import StateChip from "../components/StateChip";
+import ExtendedTable from "../components/ExtendedTable";
+import dateFormat from "dateformat";
 
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import ExtendedTable from "../components/ExtendedTable";
 
 const useStyles = makeStyles((theme) => ({
   tableHeader: {
@@ -48,14 +51,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tableHeaders = [
-  { title: "Anlage" },
-  { title: "Kunde" },
-  { title: "Termin" },
-  { title: "Mitarbeiter" },
-  { title: "Status" },
-];
-
 const Dashboard = ({ ...props }) => {
   const classes = useStyles();
 
@@ -63,6 +58,8 @@ const Dashboard = ({ ...props }) => {
     token: [token],
   } = useContext(AuthContext);
   const [, setTitle] = useContext(AppContext);
+  const [systems] = useContext(SystemContext);
+  const [users] = useContext(UserContext);
   const [maintenances, setMaintenances] = useState([]);
   const [maintenanceStats, setMaintenanceStats] = useState({});
   const [protocolStats, setProtocolStats] = useState({});
@@ -88,6 +85,14 @@ const Dashboard = ({ ...props }) => {
         setPayedStats(res.statistics);
       }
     });
+
+    (async () => {
+      const response = await Database.getMaintenances(token);
+
+      if (response.success) {
+        setMaintenances(response.maintenances);
+      }
+    })();
   }, [setTitle, token]);
 
   return (
@@ -136,6 +141,32 @@ const Dashboard = ({ ...props }) => {
           <ExtendedTable
             title="Anstehende Wartungen in diesem Jahr"
             items={maintenances}
+            headers={[
+              { name: "Beschreibung", field: "name" },
+              {
+                name: "Anlage",
+                render: (item) =>
+                  systems.find((s) => s.id === item.systemid)?.name,
+              },
+              { name: "Kunde", field: "customer_name" },
+              {
+                name: "Termin",
+                render: (item) => dateFormat(item.dueDate, "dd.mm.yyyy"),
+              },
+              {
+                name: "Mitarbeiter",
+                render: (item) => {
+                  const user = users.find((u) => u.id === item.userid);
+                  return `${user?.firstname} ${user?.lastname}`;
+                },
+              },
+              {
+                name: "Status",
+                render: (item) => (
+                  <StateChip label={item.state_name} color={item.state_color} />
+                ),
+              },
+            ]}
           />
         </Grid>
       </Grid>
