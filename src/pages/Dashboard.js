@@ -3,6 +3,7 @@ import AppContext from "../contexts/AppContext";
 import AuthContext from "../contexts/AuthContext";
 import SystemContext from "../contexts/SystemContext";
 import UserContext from "../contexts/UserContext";
+import MaintenanceContext from "../contexts/MaintenanceContext";
 import Database from "../services/Database";
 
 import ProgressCard from "../components/ProgressCard";
@@ -60,7 +61,7 @@ const Dashboard = ({ ...props }) => {
   const [, setTitle] = useContext(AppContext);
   const [systems] = useContext(SystemContext);
   const [users] = useContext(UserContext);
-  const [maintenances, setMaintenances] = useState([]);
+  const [maintenances] = useContext(MaintenanceContext);
   const [maintenanceStats, setMaintenanceStats] = useState({});
   const [protocolStats, setProtocolStats] = useState({});
   const [payedStats, setPayedStats] = useState({});
@@ -85,14 +86,6 @@ const Dashboard = ({ ...props }) => {
         setPayedStats(res.statistics);
       }
     });
-
-    (async () => {
-      const response = await Database.getMaintenances(token);
-
-      if (response.success) {
-        setMaintenances(response.maintenances);
-      }
-    })();
   }, [setTitle, token]);
 
   return (
@@ -140,7 +133,9 @@ const Dashboard = ({ ...props }) => {
         <Grid item xs={12}>
           <ExtendedTable
             title="Anstehende Wartungen in diesem Jahr"
-            items={maintenances}
+            items={maintenances.filter(
+              m => m.dueDate.getFullYear() === new Date().getFullYear()
+            )}
             headers={[
               { name: "Beschreibung", field: "name" },
               {
