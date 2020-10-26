@@ -91,26 +91,19 @@ export default class Database {
     return await request.json();
   }
 
-  static async getMaintenancesWithOptions(token, options) {
-    const request = await fetch(`${BACKEND_SERVER}/maintenance`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(options)
-    });
+  static async getMaintenances(token, params) {
+    let optionalParams = "";
+    optionalParams += params?.year ? `/${params.year}` : "";
 
-    return await request.json();
-  }
-
-  static async getMaintenances(token) {
-    const request = await fetch(`${BACKEND_SERVER}/maintenance`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const request = await fetch(
+      `${BACKEND_SERVER}/maintenance${optionalParams}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return await request.json();
   }

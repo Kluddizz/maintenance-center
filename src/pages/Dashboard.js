@@ -3,7 +3,6 @@ import AppContext from "../contexts/AppContext";
 import AuthContext from "../contexts/AuthContext";
 import SystemContext from "../contexts/SystemContext";
 import UserContext from "../contexts/UserContext";
-import MaintenanceContext from "../contexts/MaintenanceContext";
 import Database from "../services/Database";
 
 import ProgressCard from "../components/ProgressCard";
@@ -61,7 +60,7 @@ const Dashboard = ({ ...props }) => {
   const [, setTitle] = useContext(AppContext);
   const [systems] = useContext(SystemContext);
   const [users] = useContext(UserContext);
-  const [maintenances] = useContext(MaintenanceContext);
+  const [maintenances, setMaintenances] = useState([]);
   const [maintenanceStats, setMaintenanceStats] = useState({});
   const [protocolStats, setProtocolStats] = useState({});
   const [payedStats, setPayedStats] = useState({});
@@ -84,6 +83,12 @@ const Dashboard = ({ ...props }) => {
     Database.getStatistics(token, 5).then((res) => {
       if (res.success) {
         setPayedStats(res.statistics);
+      }
+    });
+
+    Database.getMaintenances(token, { year: 2020 }).then((res) => {
+      if (res.success) {
+        setMaintenances(res.maintenances);
       }
     });
   }, [setTitle, token]);
