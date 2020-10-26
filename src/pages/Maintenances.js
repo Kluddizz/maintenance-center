@@ -87,7 +87,7 @@ const Maintenances = ({ ...props }) => {
               { name: "Kunde", field: "customer_name" },
               {
                 name: "Termin",
-                render: (item) => dateFormat(item.dueDate, "dd.mm.yyyy"),
+                render: (item) => dateFormat(item.due_date, "dd.mm.yyyy"),
               },
               {
                 name: "Mitarbeiter",

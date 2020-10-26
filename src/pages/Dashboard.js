@@ -133,9 +133,7 @@ const Dashboard = ({ ...props }) => {
         <Grid item xs={12}>
           <ExtendedTable
             title="Anstehende Wartungen in diesem Jahr"
-            items={maintenances.filter(
-              m => m.dueDate.getFullYear() === new Date().getFullYear()
-            )}
+            items={maintenances}
             headers={[
               { name: "Beschreibung", field: "name" },
               {
@@ -146,7 +144,7 @@ const Dashboard = ({ ...props }) => {
               { name: "Kunde", field: "customer_name" },
               {
                 name: "Termin",
-                render: (item) => dateFormat(item.dueDate, "dd.mm.yyyy"),
+                render: (item) => dateFormat(item.due_date, "dd.mm.yyyy"),
               },
               {
                 name: "Mitarbeiter",
