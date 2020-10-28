@@ -126,12 +126,12 @@ function App() {
   const history = useHistory();
 
   const {
-    token: [, setToken],
+    token: [, , removeToken],
     user: [user],
   } = useContext(AuthContext);
 
   const handleLogout = () => {
-    setToken();
+    removeToken();
   };
 
   const drawer = (

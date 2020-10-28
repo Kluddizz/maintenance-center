@@ -5,21 +5,12 @@ import Auth from "../services/Auth";
 
 const AuthContext = createContext();
 
-const useCookie = (key) => {
-  const [cookies, setCookie] = useCookies([key]);
-  const [value, setValue] = useState(cookies[key]);
-
-  useEffect(() => {
-    setCookie(key, value);
-  }, [key, value, setCookie]);
-
-  return [value, setValue];
-};
-
 const AuthProvider = ({ ...props }) => {
-  const [token, setToken] = useCookie("auth_token");
+  const [cookies, setCookie, removeCookie] = useCookies(["auth_token"]);
   const [payload, setPayload] = useState();
   const [user, setUser] = useState();
+
+  const token = cookies.auth_token;
 
   const updateUser = useCallback(async () => {
     if (payload) {
@@ -35,6 +26,17 @@ const AuthProvider = ({ ...props }) => {
     updateUser();
   }, [updateUser]);
 
+  const setToken = useCallback(
+    (value) => {
+      setCookie("auth_token", value);
+    },
+    [setCookie]
+  );
+
+  const removeToken = useCallback(() => {
+    removeCookie("auth_token");
+  }, [removeCookie]);
+
   useEffect(() => {
     if (token && token !== "null" && token !== "undefined") {
       const parts = token.split(".");
@@ -47,7 +49,7 @@ const AuthProvider = ({ ...props }) => {
   }, [token]);
 
   const value = {
-    token: [token, setToken],
+    token: [token, setToken, removeToken],
     payload: [payload, setPayload],
     user: [user, updateUser],
   };
