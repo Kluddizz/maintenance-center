@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import AppContext from "../contexts/AppContext";
 import CustomerContext from "../contexts/CustomerContext";
+import MaintenanceContext from "../contexts/MaintenanceContext";
 import AuthContext from "../contexts/AuthContext";
 import Database from "../services/Database";
 import ExtendedTable from "../components/ExtendedTable";
@@ -17,6 +18,7 @@ const Customers = ({ ...props }) => {
 
   const [, setTitle] = useContext(AppContext);
   const [customers, updateCustomers] = useContext(CustomerContext);
+  const [, updateMaintenances] = useContext(MaintenanceContext);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -29,6 +31,7 @@ const Customers = ({ ...props }) => {
       });
 
       updateCustomers();
+      updateMaintenances();
     } else {
       enqueueSnackbar(
         `Der Kunde '${customer.name}' konnte nicht geändert werden.`,
