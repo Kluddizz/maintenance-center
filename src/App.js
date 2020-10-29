@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard";
 import Maintenances from "./pages/Maintenances";
 import Customers from "./pages/Customers";
 import Systems from "./pages/Systems";
+import Maintenance from "./pages/Maintenance";
 import UserAvatar from "./components/UserAvatar";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -228,6 +229,7 @@ function App() {
                     <Route path="/app/maintenances" component={Maintenances} />
                     <Route path="/app/customers" component={Customers} />
                     <Route path="/app/systems" component={Systems} />
+                    <Route path="/app/maintenances/:id" component={Maintenance} />
                   </StateProvider>
                 </MaintenanceProvider>
               </SystemProvider>

@@ -44,6 +44,10 @@ const Customers = ({ ...props }) => {
     const response = await Database.createCustomer(token, customer);
 
     if (response.success) {
+      enqueueSnackbar("Kunde wurde angelegt", {
+        variant: "success",
+      });
+
       updateCustomers();
     } else {
       enqueueSnackbar("Kunde konnte nicht erstellt werden", {
@@ -56,6 +60,10 @@ const Customers = ({ ...props }) => {
     for (let customer of selected) {
       Database.deleteCustomer(token, customer).then((res) => {
         if (res.success) {
+          enqueueSnackbar(
+            `Kunde '${customer.name}' wurde gelöscht`,
+            { variant: "success" }
+          );
           updateCustomers();
         } else {
           enqueueSnackbar(

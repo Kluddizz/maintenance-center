@@ -24,11 +24,10 @@ const Systems = ({ ...props }) => {
     const response = await Database.createSystem(token, system);
 
     if (response.success) {
+      enqueueSnackbar(`Anlage wurde erstellt`, { variant: "success" });
       updateSystems();
     } else {
-      enqueueSnackbar(`Die Anlage '${system.name}' wurde erstellt`, {
-        variant: "success",
-      });
+      enqueueSnackbar("Die Anlage konnte nicht erstellt werden", { variant: "error" });
     }
   };
 
@@ -53,6 +52,10 @@ const Systems = ({ ...props }) => {
       const response = await Database.deleteSystem(token, system);
 
       if (response.success) {
+        enqueueSnackbar(
+          `Die Anlage '${system.name}' wurde gelöscht`,
+          { variant: "success" }
+        );
         updateSystems();
       } else {
         enqueueSnackbar(

@@ -31,6 +31,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import EditIcon from "@material-ui/icons/Edit";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import Menu from "@material-ui/core/Menu";
 
 const useStyles = makeStyles((theme) => ({
@@ -235,7 +236,14 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
                     </TableCell>
                   );
                 })}
-                <TableCell padding="checkbox" />
+
+                { actions?.edit?.action ? (
+                  <TableCell padding="checkbox" />
+                ) : null }
+
+                { actions?.click?.action ? (
+                  <TableCell padding="checkbox" />
+                ) : null }
               </TableRow>
             </TableHead>
             <TableBody>
@@ -269,13 +277,21 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
                           : entry[header.field]}
                       </TableCell>
                     ))}
-                    <TableCell>
-                      {actions?.edit?.action ? (
+                    {actions?.edit?.action ? (
+                      <TableCell padding="none" size="small">
                         <IconButton onClick={() => editItem(entry)}>
                           <EditIcon />
                         </IconButton>
-                      ) : null}
-                    </TableCell>
+                      </TableCell>
+                    ) : null}
+
+                    {actions?.click?.action ? (
+                      <TableCell padding="none" size="small">
+                        <IconButton onClick={() => actions.click.action(entry)}>
+                          <ChevronRightIcon />
+                        </IconButton>
+                      </TableCell>
+                    ) : null}
                   </TableRow>
                 );
               })}

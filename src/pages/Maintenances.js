@@ -66,6 +66,10 @@ const Maintenances = ({ ...props }) => {
     }
   };
 
+  const handleClick = (entry) => {
+    console.log(entry);
+  };
+
   useEffect(() => {
     setTitle("Wartungen");
   }, [setTitle]);
@@ -166,6 +170,9 @@ const Maintenances = ({ ...props }) => {
                 dialogDescription:
                   "Diese Aktion kann nicht mehr rückgängig gemacht werden.",
                 action: handleDelete,
+              },
+              click: {
+                action: handleClick,
               },
             }}
           />
