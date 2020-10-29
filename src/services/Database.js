@@ -92,11 +92,8 @@ export default class Database {
   }
 
   static async getMaintenances(token, params) {
-    let optionalParams = "";
-    optionalParams += params?.year ? `/${params.year}` : "";
-
     const request = await fetch(
-      `${BACKEND_SERVER}/maintenance${optionalParams}`,
+      `${BACKEND_SERVER}/maintenance${params ?? ''}`,
       {
         method: "GET",
         headers: {

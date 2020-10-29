@@ -340,6 +340,7 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
               case "datetime":
                 return (
                   <DatePicker
+                    format="DD.MM.yyyy"
                     key={field.name}
                     label={field.description}
                     onChange={(event) => changeNewItem(field.name, event)}
@@ -421,6 +422,7 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
               case "datetime":
                 return (
                   <DatePicker
+                    format="DD.MM.yyyy"
                     key={field.name}
                     label={field.description}
                     value={selectedItem ? selectedItem[field.name] : ""}

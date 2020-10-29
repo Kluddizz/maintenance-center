@@ -86,7 +86,7 @@ const Dashboard = ({ ...props }) => {
       }
     });
 
-    Database.getMaintenances(token, { year: 2020 }).then((res) => {
+    Database.getMaintenances(token, '/year/2020').then((res) => {
       if (res.success) {
         setMaintenances(res.maintenances);
       }
