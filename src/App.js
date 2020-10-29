@@ -226,10 +226,10 @@ function App() {
                 <MaintenanceProvider>
                   <StateProvider>
                     <Route path="/app/dashboard" component={Dashboard} />
-                    <Route path="/app/maintenances" component={Maintenances} />
+                    <Route exact path="/app/maintenances" component={Maintenances} />
+                    <Route exact path="/app/maintenances/:id" component={Maintenance} />
                     <Route path="/app/customers" component={Customers} />
                     <Route path="/app/systems" component={Systems} />
-                    <Route path="/app/maintenances/:id" component={Maintenance} />
                   </StateProvider>
                 </MaintenanceProvider>
               </SystemProvider>

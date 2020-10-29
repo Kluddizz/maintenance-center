@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import dateFormat from "dateformat";
 
@@ -24,6 +25,7 @@ const Maintenances = ({ ...props }) => {
   const [users] = useContext(UserContext);
   const [, setTitle] = useContext(AppContext);
   const { enqueueSnackbar } = useSnackbar();
+  const history = useHistory();
 
   const handleAdd = async (item) => {
     const response = await Database.createMaintenance(token, item);
@@ -67,7 +69,7 @@ const Maintenances = ({ ...props }) => {
   };
 
   const handleClick = (entry) => {
-    console.log(entry);
+    history.push(`/app/maintenances/${entry.id}`);
   };
 
   useEffect(() => {
