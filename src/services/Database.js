@@ -1,6 +1,52 @@
 import { BACKEND_SERVER } from "../constants/external";
 
 export default class Database {
+  static async editAppointment(token, appointment) {
+    const request = await fetch(
+      `${BACKEND_SERVER}/appointment/${appointment.id}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(appointment),
+      }
+    );
+
+    return await request.json();
+  }
+
+  static async createAppointment(token, appointment) {
+    const request = await fetch(
+      `${BACKEND_SERVER}/appointment/maintenance/${appointment.maintenanceid}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(appointment),
+      }
+    );
+
+    return await request.json();
+  }
+
+  static async getAppointments(token, maintenanceId) {
+    const request = await fetch(
+      `${BACKEND_SERVER}/appointment/maintenance/${maintenanceId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return await request.json();
+  }
+
   static async getStatistics(token, stateId) {
     const request = await fetch(
       `${BACKEND_SERVER}/maintenance/statistics/state/${stateId}`,
@@ -93,7 +139,7 @@ export default class Database {
 
   static async getMaintenances(token, params) {
     const request = await fetch(
-      `${BACKEND_SERVER}/maintenance${params ?? ''}`,
+      `${BACKEND_SERVER}/maintenance${params ?? ""}`,
       {
         method: "GET",
         headers: {
