@@ -217,18 +217,21 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    indeterminate={
-                      selected?.length > 0 && selected?.length < entries?.length
-                    }
-                    checked={
-                      entries?.length > 0 &&
-                      selected?.length === entries?.length
-                    }
-                    onChange={selectAll}
-                  />
-                </TableCell>
+                {actions?.delete?.action ? (
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      indeterminate={
+                        selected?.length > 0 &&
+                        selected?.length < entries?.length
+                      }
+                      checked={
+                        entries?.length > 0 &&
+                        selected?.length === entries?.length
+                      }
+                      onChange={selectAll}
+                    />
+                  </TableCell>
+                ) : null}
                 {headers?.map((header, idx) => {
                   return (
                     <TableCell className={classes.tableHeader} key={idx}>
@@ -237,13 +240,13 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
                   );
                 })}
 
-                { actions?.edit?.action ? (
+                {actions?.edit?.action ? (
                   <TableCell padding="checkbox" />
-                ) : null }
+                ) : null}
 
-                { actions?.click?.action ? (
+                {actions?.click?.action ? (
                   <TableCell padding="checkbox" />
-                ) : null }
+                ) : null}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -262,14 +265,17 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
 
                 return (
                   <TableRow key={entry.id}>
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={
-                          selected.find((s) => s.id === entry.id) !== undefined
-                        }
-                        onChange={selectItem}
-                      />
-                    </TableCell>
+                    {actions?.delete?.action ? (
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={
+                            selected.find((s) => s.id === entry.id) !==
+                            undefined
+                          }
+                          onChange={selectItem}
+                        />
+                      </TableCell>
+                    ) : null}
                     {headers.map((header) => (
                       <TableCell key={header.name}>
                         {header.render
