@@ -5,55 +5,14 @@ import SystemContext from "../contexts/SystemContext";
 import UserContext from "../contexts/UserContext";
 import Database from "../services/Database";
 
-import ProgressCard from "../components/ProgressCard";
+import ProgressBarRow from "../components/ProgressBarRow";
 import StateChip from "../components/StateChip";
 import ExtendedTable from "../components/ExtendedTable";
 import dateFormat from "dateformat";
 
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
-  tableHeader: {
-    fontWeight: 900,
-  },
-
-  card: {
-    height: "100%",
-  },
-
-  cardContentRoot: {
-    "&:last-child": {
-      paddingBottom: 0,
-    },
-  },
-
-  cardContent: {
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingBottom: 0,
-  },
-
-  progressColorPrimary: {
-    background: "rgba(0, 0, 0, 0.15)",
-  },
-
-  maintenanceCardBar: {
-    background: "#ee0281",
-  },
-
-  protocolCardBar: {
-    background: "#02a7ee",
-  },
-
-  payedCardBar: {
-    background: "#02eeb5",
-  },
-}));
-
-const Dashboard = ({ ...props }) => {
-  const classes = useStyles();
-
+const Dashboard = () => {
   const {
     token: [token],
   } = useContext(AuthContext);
@@ -61,32 +20,11 @@ const Dashboard = ({ ...props }) => {
   const [systems] = useContext(SystemContext);
   const [users] = useContext(UserContext);
   const [maintenances, setMaintenances] = useState([]);
-  const [maintenanceStats, setMaintenanceStats] = useState({});
-  const [protocolStats, setProtocolStats] = useState({});
-  const [payedStats, setPayedStats] = useState({});
 
   useEffect(() => {
     setTitle("Dashboard");
 
-    Database.getStatistics(token, 3).then((res) => {
-      if (res.success) {
-        setMaintenanceStats(res.statistics);
-      }
-    });
-
-    Database.getStatistics(token, 4).then((res) => {
-      if (res.success) {
-        setProtocolStats(res.statistics);
-      }
-    });
-
-    Database.getStatistics(token, 5).then((res) => {
-      if (res.success) {
-        setPayedStats(res.statistics);
-      }
-    });
-
-    Database.getMaintenances(token, '/year/2020').then((res) => {
+    Database.getMaintenances(token, "/year/2020").then((res) => {
       if (res.success) {
         setMaintenances(res.maintenances);
       }
@@ -96,45 +34,7 @@ const Dashboard = ({ ...props }) => {
   return (
     <div>
       <Grid container spacing={3}>
-        <Grid item xs={4}>
-          <ProgressCard
-            title="Abgeschlossene Wartungen"
-            subtitle="in diesem Jahr"
-            value={maintenanceStats.actual}
-            max={maintenanceStats.total}
-            className={classes.card}
-            progressClasses={{
-              bar: classes.maintenanceCardBar,
-              colorPrimary: classes.progressColorPrimary,
-            }}
-          ></ProgressCard>
-        </Grid>
-        <Grid item xs={4}>
-          <ProgressCard
-            title="Angefertigte Protokolle"
-            subtitle="in diesem Jahr"
-            value={protocolStats.actual}
-            max={protocolStats.total}
-            className={classes.card}
-            progressClasses={{
-              bar: classes.protocolCardBar,
-              colorPrimary: classes.progressColorPrimary,
-            }}
-          ></ProgressCard>
-        </Grid>
-        <Grid item xs={4}>
-          <ProgressCard
-            title="Bezahlte Rechnungen"
-            subtitle="in diesem Jahr"
-            value={payedStats.actual}
-            max={payedStats.total}
-            className={classes.card}
-            progressClasses={{
-              bar: classes.payedCardBar,
-              colorPrimary: classes.progressColorPrimary,
-            }}
-          ></ProgressCard>
-        </Grid>
+        <ProgressBarRow />
         <Grid item xs={12}>
           <ExtendedTable
             title="Anstehende Wartungen in diesem Jahr"
