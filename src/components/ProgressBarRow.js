@@ -36,6 +36,7 @@ const ProgressBarRow = () => {
     token: [token],
     user: [user],
   } = useContext(AuthContext);
+
   const [maintenanceStats, setMaintenanceStats] = useState({});
   const [protocolStats, setProtocolStats] = useState({});
   const [payedStats, setPayedStats] = useState({});
