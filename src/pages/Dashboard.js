@@ -57,8 +57,7 @@ const Dashboard = () => {
               { name: "Beschreibung", field: "name" },
               {
                 name: "Anlage",
-                render: (item) =>
-                  systems.find((s) => s.id === item.systemid)?.name,
+                field: "system_name",
               },
               { name: "Kunde", field: "customer_name" },
               {
