@@ -99,7 +99,7 @@ const Maintenances = ({ ...props }) => {
                 name: "Mitarbeiter",
                 render: (item) => {
                   const user = users.find((u) => u.id === item.userid);
-                  return `${user?.firstname} ${user?.lastname}`;
+                  return `${user?.firstname ?? ""} ${user?.lastname ?? ""}`;
                 },
               },
               {
@@ -122,15 +122,6 @@ const Maintenances = ({ ...props }) => {
                 options: {
                   list: systems,
                   mapField: (item) => item.name,
-                },
-              },
-              {
-                name: "userid",
-                description: "Bearbeiter",
-                type: "list",
-                options: {
-                  list: users,
-                  mapField: (item) => `${item.firstname} ${item.lastname}`,
                 },
               },
               {

@@ -4,6 +4,7 @@ import { useSnackbar } from "notistack";
 
 import Database from "../services/Database";
 
+import UserContext from "../contexts/UserContext";
 import StateContext from "../contexts/StateContext";
 import AuthContext from "../contexts/AuthContext";
 import MaintenanceContext from "../contexts/MaintenanceContext";
@@ -23,6 +24,7 @@ const Maintenance = ({ ...props }) => {
 
   const [, updateMaintenances] = useContext(MaintenanceContext);
   const [states] = useContext(StateContext);
+  const [users] = useContext(UserContext);
   const [appointments, setAppointments] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -79,6 +81,13 @@ const Maintenance = ({ ...props }) => {
             render: (item) => dateFormat(item.date, "dd.mm.yyyy"),
           },
           {
+            name: "Mitarbeiter",
+            render: (item) => {
+              const user = users.find((u) => u.id === item.userid);
+              return `${user?.firstname ?? ""} ${user?.lastname ?? ""}`;
+            },
+          },
+          {
             name: "Status",
             render: (item) => (
               <StateChip label={item.state_name} color={item.state_color} />
@@ -90,6 +99,16 @@ const Maintenance = ({ ...props }) => {
             name: "date",
             description: "Termin",
             type: "datetime",
+          },
+          {
+            name: "userid",
+            description: "Mitarbeiter",
+            type: "list",
+            options: {
+              list: users,
+              mapField: (item) =>
+                `${item?.firstname ?? ""} ${item?.lastname ?? ""}`,
+            },
           },
           {
             name: "stateid",

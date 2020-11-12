@@ -48,8 +48,19 @@ export default class Database {
   }
 
   static async getStatistics(token, stateId) {
+    const request = await fetch(`${BACKEND_SERVER}/stats/state/${stateId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return await request.json();
+  }
+
+  static async getStatisticsForUser(token, user, stateId) {
     const request = await fetch(
-      `${BACKEND_SERVER}/maintenance/statistics/state/${stateId}`,
+      `${BACKEND_SERVER}/stats/user/${user.id}/state/${stateId}`,
       {
         method: "GET",
         headers: {

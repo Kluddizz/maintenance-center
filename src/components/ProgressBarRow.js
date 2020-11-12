@@ -52,24 +52,40 @@ const ProgressBarRow = () => {
   }
 
   useEffect(() => {
-    Database.getStatistics(token, 3).then((res) => {
-      if (res.success) {
-        setMaintenanceStats(res.statistics);
-      }
-    });
+    if (user) {
+      if (isAdmin(user)) {
+        Database.getStatistics(token, 3).then((res) => {
+          if (res.success) {
+            setMaintenanceStats(res.statistics);
+          }
+        });
 
-    Database.getStatistics(token, 4).then((res) => {
-      if (res.success) {
-        setProtocolStats(res.statistics);
-      }
-    });
+        Database.getStatistics(token, 4).then((res) => {
+          if (res.success) {
+            setProtocolStats(res.statistics);
+          }
+        });
 
-    Database.getStatistics(token, 5).then((res) => {
-      if (res.success) {
-        setPayedStats(res.statistics);
+        Database.getStatistics(token, 5).then((res) => {
+          if (res.success) {
+            setPayedStats(res.statistics);
+          }
+        });
+      } else {
+        Database.getStatisticsForUser(token, user, 3).then((res) => {
+          if (res.success) {
+            setMaintenanceStats(res.statistics);
+          }
+        });
+
+        Database.getStatisticsForUser(token, user, 4).then((res) => {
+          if (res.success) {
+            setProtocolStats(res.statistics);
+          }
+        });
       }
-    });
-  }, [token]);
+    }
+  }, [token, user]);
 
   return (
     <>

@@ -4,6 +4,7 @@ import AuthContext from "../contexts/AuthContext";
 import SystemContext from "../contexts/SystemContext";
 import UserContext from "../contexts/UserContext";
 import Database from "../services/Database";
+import { isAdmin } from "../utils/RoleUtils";
 
 import ProgressBarRow from "../components/ProgressBarRow";
 import StateChip from "../components/StateChip";
@@ -15,6 +16,7 @@ import Grid from "@material-ui/core/Grid";
 const Dashboard = () => {
   const {
     token: [token],
+    user: [user],
   } = useContext(AuthContext);
   const [, setTitle] = useContext(AppContext);
   const [systems] = useContext(SystemContext);
@@ -24,12 +26,24 @@ const Dashboard = () => {
   useEffect(() => {
     setTitle("Dashboard");
 
-    Database.getMaintenances(token, "/year/2020").then((res) => {
-      if (res.success) {
-        setMaintenances(res.maintenances);
+    if (user) {
+      if (isAdmin(user)) {
+        Database.getMaintenances(token, "/year/2020").then((res) => {
+          if (res.success) {
+            setMaintenances(res.maintenances);
+          }
+        });
+      } else {
+        Database.getMaintenances(token, `/user/${user.id}/year/2020`).then(
+          (res) => {
+            if (res.success) {
+              setMaintenances(res.maintenances);
+            }
+          }
+        );
       }
-    });
-  }, [setTitle, token]);
+    }
+  }, [setTitle, token, user]);
 
   return (
     <div>
@@ -55,7 +69,7 @@ const Dashboard = () => {
                 name: "Mitarbeiter",
                 render: (item) => {
                   const user = users.find((u) => u.id === item.userid);
-                  return `${user?.firstname} ${user?.lastname}`;
+                  return `${user?.firstname ?? ""} ${user?.lastname ?? ""}`;
                 },
               },
               {
