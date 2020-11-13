@@ -43,6 +43,32 @@ const Dashboard = () => {
     }
   }, [setTitle, token, user]);
 
+  const headers = [
+    { name: "Beschreibung", field: "name" },
+    {
+      name: "Anlage",
+      field: "system_name",
+    },
+    { name: "Kunde", field: "customer_name" },
+    {
+      name: "Termin",
+      render: (item) => dateFormat(item.due_date, "dd.mm.yyyy"),
+    },
+    {
+      name: "Mitarbeiter",
+      render: (item) => {
+        const user = users.find((u) => u.id === item.userid);
+        return `${user?.firstname ?? ""} ${user?.lastname ?? ""}`;
+      },
+    },
+    {
+      name: "Status",
+      render: (item) => (
+        <StateChip label={item.state_name} color={item.state_color} />
+      ),
+    },
+  ];
+
   return (
     <div>
       <Grid container spacing={3}>
@@ -51,31 +77,11 @@ const Dashboard = () => {
           <ExtendedTable
             title="Anstehende Wartungen in diesem Jahr"
             items={maintenances}
-            headers={[
-              { name: "Beschreibung", field: "name" },
-              {
-                name: "Anlage",
-                field: "system_name",
-              },
-              { name: "Kunde", field: "customer_name" },
-              {
-                name: "Termin",
-                render: (item) => dateFormat(item.due_date, "dd.mm.yyyy"),
-              },
-              {
-                name: "Mitarbeiter",
-                render: (item) => {
-                  const user = users.find((u) => u.id === item.userid);
-                  return `${user?.firstname ?? ""} ${user?.lastname ?? ""}`;
-                },
-              },
-              {
-                name: "Status",
-                render: (item) => (
-                  <StateChip label={item.state_name} color={item.state_color} />
-                ),
-              },
-            ]}
+            headers={
+              !isAdmin(user)
+                ? headers.filter((x) => x.name !== "Mitarbeiter")
+                : headers
+            }
           />
         </Grid>
       </Grid>
