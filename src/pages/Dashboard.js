@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import AppContext from "../contexts/AppContext";
 import AuthContext from "../contexts/AuthContext";
-import SystemContext from "../contexts/SystemContext";
 import UserContext from "../contexts/UserContext";
 import Database from "../services/Database";
 import { isAdmin } from "../utils/RoleUtils";
@@ -19,7 +18,6 @@ const Dashboard = () => {
     user: [user],
   } = useContext(AuthContext);
   const [, setTitle] = useContext(AppContext);
-  const [systems] = useContext(SystemContext);
   const [users] = useContext(UserContext);
   const [maintenances, setMaintenances] = useState([]);
 
