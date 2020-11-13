@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useCallback, useState, useContext, useEffect } from "react";
 import dateFormat from "dateformat";
 import { useSnackbar } from "notistack";
 
@@ -28,13 +28,13 @@ const Maintenance = ({ ...props }) => {
   const [appointments, setAppointments] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
 
-  const updateAppointments = async () => {
+  const updateAppointments = useCallback(async () => {
     const response = await Database.getAppointments(token, params.id);
 
     if (response.success) {
       setAppointments(response.appointments);
     }
-  };
+  }, [params, token]);
 
   const handleAdd = async (item) => {
     const appointment = { ...item, maintenanceid: params.id, stateid: 1 };
@@ -67,7 +67,7 @@ const Maintenance = ({ ...props }) => {
 
   useEffect(() => {
     updateAppointments();
-  }, []);
+  }, [updateAppointments]);
 
   return (
     <div>
