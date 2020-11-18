@@ -179,7 +179,7 @@ const ExtendedTable = ({ itemFields, headers, title, actions, items }) => {
               {(popupState) => {
                 return (
                   <>
-                    {actions ? (
+                    {actions?.add || actions?.delete ? (
                       <>
                         <IconButton {...bindTrigger(popupState)}>
                           <MoreVertIcon />

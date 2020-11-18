@@ -18,6 +18,7 @@ import Grid from "@material-ui/core/Grid";
 const Maintenances = ({ ...props }) => {
   const {
     token: [token],
+    user: [user],
   } = useContext(AuthContext);
   const [maintenances, updateMaintenances] = useContext(MaintenanceContext);
   const [systems] = useContext(SystemContext);
@@ -70,6 +71,31 @@ const Maintenances = ({ ...props }) => {
 
   const handleClick = (entry) => {
     history.push(`/app/maintenances/${entry.id}`);
+  };
+
+  const actions = {
+    add: {
+      header: "Wartung hinzufügen",
+      dialogTitle: "Neue Wartung hinzufügen",
+      dialogDescription: "Füllen Sie folgendes Formular aus.",
+      action: handleAdd,
+    },
+    edit: {
+      dialogTitle: "Vorhandene Wartung bearbeiten",
+      dialogDescription:
+        "Ändern Sie folgende Felder, um die Wartung zu bearbeiten.",
+      action: handleEdit,
+    },
+    delete: {
+      header: "Wartung löschen",
+      dialogTitle: "Möchten Sie diese Wartungen wirklich löschen?",
+      dialogDescription:
+        "Diese Aktion kann nicht mehr rückgängig gemacht werden.",
+      action: handleDelete,
+    },
+    click: {
+      action: handleClick,
+    },
   };
 
   useEffect(() => {
@@ -145,28 +171,10 @@ const Maintenances = ({ ...props }) => {
               },
             ]}
             actions={{
-              add: {
-                header: "Wartung hinzufügen",
-                dialogTitle: "Neue Wartung hinzufügen",
-                dialogDescription: "Füllen Sie folgendes Formular aus.",
-                action: handleAdd,
-              },
-              edit: {
-                dialogTitle: "Vorhandene Wartung bearbeiten",
-                dialogDescription:
-                  "Ändern Sie folgende Felder, um die Wartung zu bearbeiten.",
-                action: handleEdit,
-              },
-              delete: {
-                header: "Wartung löschen",
-                dialogTitle: "Möchten Sie diese Wartungen wirklich löschen?",
-                dialogDescription:
-                  "Diese Aktion kann nicht mehr rückgängig gemacht werden.",
-                action: handleDelete,
-              },
-              click: {
-                action: handleClick,
-              },
+              add: user?.isAdmin() ? actions.add : undefined,
+              delete: user?.isAdmin() ? actions.delete : undefined,
+              edit: actions.edit,
+              click: actions.click,
             }}
           />
         </Grid>
