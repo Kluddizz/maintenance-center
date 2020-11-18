@@ -14,6 +14,7 @@ import Grid from "@material-ui/core/Grid";
 const Systems = ({ ...props }) => {
   const {
     token: [token],
+    user: [user],
   } = useContext(AuthContext);
   const [systems, updateSystems] = useContext(SystemContext);
   const [customers] = useContext(CustomerContext);
@@ -27,7 +28,9 @@ const Systems = ({ ...props }) => {
       enqueueSnackbar(`Anlage wurde erstellt`, { variant: "success" });
       updateSystems();
     } else {
-      enqueueSnackbar("Die Anlage konnte nicht erstellt werden", { variant: "error" });
+      enqueueSnackbar("Die Anlage konnte nicht erstellt werden", {
+        variant: "error",
+      });
     }
   };
 
@@ -52,10 +55,9 @@ const Systems = ({ ...props }) => {
       const response = await Database.deleteSystem(token, system);
 
       if (response.success) {
-        enqueueSnackbar(
-          `Die Anlage '${system.name}' wurde gelöscht`,
-          { variant: "success" }
-        );
+        enqueueSnackbar(`Die Anlage '${system.name}' wurde gelöscht`, {
+          variant: "success",
+        });
         updateSystems();
       } else {
         enqueueSnackbar(
@@ -64,6 +66,28 @@ const Systems = ({ ...props }) => {
         );
       }
     }
+  };
+
+  const actions = {
+    add: {
+      header: "Anlage hinzufügen",
+      dialogTitle: "Neue Anlage hinzufügen",
+      dialogDescription: "Füllen Sie folgendes Formular aus.",
+      action: handleAdd,
+    },
+    edit: {
+      dialogTitle: "Vorhandene Anlage bearbeiten",
+      dialogDescription:
+        "Ändern Sie folgende Felder, um die Anlage zu bearbeiten.",
+      action: handleEdit,
+    },
+    delete: {
+      header: "Anlage löschen",
+      dialogTitle: "Möchten Sie diese Anlagen wirklich löschen?",
+      dialogDescription:
+        "Diese Aktion kann nicht mehr rückgängig gemacht werden.",
+      action: handleDelete,
+    },
   };
 
   useEffect(() => {
@@ -121,27 +145,7 @@ const Systems = ({ ...props }) => {
                 type: "string",
               },
             ]}
-            actions={{
-              add: {
-                header: "Anlage hinzufügen",
-                dialogTitle: "Neue Anlage hinzufügen",
-                dialogDescription: "Füllen Sie folgendes Formular aus.",
-                action: handleAdd,
-              },
-              edit: {
-                dialogTitle: "Vorhandene Anlage bearbeiten",
-                dialogDescription:
-                  "Ändern Sie folgende Felder, um die Anlage zu bearbeiten.",
-                action: handleEdit,
-              },
-              delete: {
-                header: "Anlage löschen",
-                dialogTitle: "Möchten Sie diese Anlagen wirklich löschen?",
-                dialogDescription:
-                  "Diese Aktion kann nicht mehr rückgängig gemacht werden.",
-                action: handleDelete,
-              },
-            }}
+            actions={user?.isAdmin() ? actions : undefined}
           />
         </Grid>
       </Grid>
