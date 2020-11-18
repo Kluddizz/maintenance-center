@@ -17,6 +17,7 @@ const AuthProvider = ({ ...props }) => {
       const response = await Auth.getUser(token, payload.id);
 
       if (response.success) {
+        response.user.isAdmin = () => response.user.roleid === 0;
         setUser(response.user);
       }
     }

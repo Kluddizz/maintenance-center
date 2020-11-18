@@ -14,6 +14,7 @@ import Grid from "@material-ui/core/Grid";
 const Customers = ({ ...props }) => {
   const {
     token: [token],
+    user: [user],
   } = useContext(AuthContext);
 
   const [, setTitle] = useContext(AppContext);
@@ -60,10 +61,9 @@ const Customers = ({ ...props }) => {
     for (let customer of selected) {
       Database.deleteCustomer(token, customer).then((res) => {
         if (res.success) {
-          enqueueSnackbar(
-            `Kunde '${customer.name}' wurde gelöscht`,
-            { variant: "success" }
-          );
+          enqueueSnackbar(`Kunde '${customer.name}' wurde gelöscht`, {
+            variant: "success",
+          });
           updateCustomers();
         } else {
           enqueueSnackbar(
@@ -73,6 +73,29 @@ const Customers = ({ ...props }) => {
         }
       });
     }
+  };
+
+  const actions = {
+    add: {
+      header: "Kunde hinzufügen",
+      dialogTitle: "Neuen Kunden hinzufügen",
+      dialogDescription:
+        "Bitte füllen Sie das folgende Formular aus, um einen neuen Kunden hinzuzufügen.",
+      action: handleAdd,
+    },
+    delete: {
+      header: "Kunde löschen",
+      dialogTitle: "Möchten Sie die Kunden wirklich löschen?",
+      dialogDescription:
+        "Diese Aktion kann nicht mehr rückgängig gemacht werden.",
+      action: handleDelete,
+    },
+    edit: {
+      dialogTitle: "Vorhandenen Kunden bearbeiten",
+      dialogDescription:
+        "Bitte füllen Sie das Formular aus, um den vorhandenen Kunden zu bearbeiten.",
+      action: handleEdit,
+    },
   };
 
   useEffect(() => {
@@ -97,28 +120,7 @@ const Customers = ({ ...props }) => {
               { name: "E-Mail", field: "email" },
               { name: "Telefon", field: "phone" },
             ]}
-            actions={{
-              add: {
-                header: "Kunde hinzufügen",
-                dialogTitle: "Neuen Kunden hinzufügen",
-                dialogDescription:
-                  "Bitte füllen Sie das folgende Formular aus, um einen neuen Kunden hinzuzufügen.",
-                action: handleAdd,
-              },
-              delete: {
-                header: "Kunde löschen",
-                dialogTitle: "Möchten Sie die Kunden wirklich löschen?",
-                dialogDescription:
-                  "Diese Aktion kann nicht mehr rückgängig gemacht werden.",
-                action: handleDelete,
-              },
-              edit: {
-                dialogTitle: "Vorhandenen Kunden bearbeiten",
-                dialogDescription:
-                  "Bitte füllen Sie das Formular aus, um den vorhandenen Kunden zu bearbeiten.",
-                action: handleEdit,
-              },
-            }}
+            actions={user?.isAdmin() ? actions : undefined}
             itemFields={[
               {
                 name: "name",
