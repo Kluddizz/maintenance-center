@@ -199,6 +199,17 @@ export default class Database {
     return await request.json();
   }
 
+  static async getSystemsForUser(token, user) {
+    const request = await fetch(`${BACKEND_SERVER}/system/user/${user.id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return await request.json();
+  }
+
   static async getSystems(token) {
     const request = await fetch(`${BACKEND_SERVER}/system`, {
       method: "GET",

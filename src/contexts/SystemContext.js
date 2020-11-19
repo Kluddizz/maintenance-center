@@ -13,16 +13,27 @@ const SystemContext = createContext();
 const SystemProvider = ({ ...props }) => {
   const {
     token: [token],
+    user: [user],
   } = useContext(AuthContext);
   const [systems, setSystems] = useState([]);
 
   const updateSystems = useCallback(async () => {
-    const request = await Database.getSystems(token);
+    if (user) {
+      if (user.isAdmin()) {
+        const request = await Database.getSystems(token);
 
-    if (request.success) {
-      setSystems(request.systems);
+        if (request.success) {
+          setSystems(request.systems);
+        }
+      } else {
+        const request = await Database.getSystemsForUser(token, user);
+
+        if (request.success) {
+          setSystems(request.systems);
+        }
+      }
     }
-  }, [token]);
+  }, [token, user]);
 
   useEffect(() => {
     updateSystems();
