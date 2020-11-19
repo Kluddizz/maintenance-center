@@ -14,17 +14,31 @@ const MaintenanceContext = createContext();
 const MaintenanceProvider = ({ ...props }) => {
   const {
     token: [token],
+    user: [user],
   } = useContext(AuthContext);
 
   const [maintenances, setMaintenances] = useState([]);
 
   const updateMaintenances = useCallback(async () => {
-    const response = await Database.getMaintenances(token);
+    if (user) {
+      if (user.isAdmin()) {
+        const response = await Database.getMaintenances(token);
 
-    if (response.success) {
-      setMaintenances(response.maintenances);
+        if (response.success) {
+          setMaintenances(response.maintenances);
+        }
+      } else {
+        const response = await Database.getMaintenances(
+          token,
+          `/user/${user.id}`
+        );
+
+        if (response.success) {
+          setMaintenances(response.maintenances);
+        }
+      }
     }
-  }, [token]);
+  }, [token, user]);
 
   useEffect(() => {
     updateMaintenances();
