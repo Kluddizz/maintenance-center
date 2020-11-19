@@ -210,6 +210,17 @@ export default class Database {
     return await request.json();
   }
 
+  static async getCustomersForUser(token, user) {
+    const request = await fetch(`${BACKEND_SERVER}/customer/user/${user.id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return await request.json();
+  }
+
   static async getCustomers(token) {
     const request = await fetch(`${BACKEND_SERVER}/customer`, {
       method: "GET",
