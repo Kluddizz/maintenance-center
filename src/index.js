@@ -1,14 +1,49 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+
+import { SnackbarProvider } from "notistack";
+
+import App from "./App";
+import Login from "./pages/Login";
+import PrivateRoute from "./components/PrivateRoute";
+import { AppProvider } from "./contexts/AppContext";
+import { AuthProvider } from "./contexts/AuthContext";
+import { CookiesProvider } from "react-cookie";
+
+import MomentUtils from "@date-io/moment";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+
+import * as serviceWorker from "./serviceWorker";
+import "./index.css";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <Router>
+    <Switch>
+      <CookiesProvider>
+        <AuthProvider>
+          <AppProvider>
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              <SnackbarProvider
+                maxSnack={3}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              >
+                <PrivateRoute path="/app" component={App} />
+                <Route path="/login" component={Login} />
+                <Redirect from="/" to="/app/dashboard" />
+              </SnackbarProvider>
+            </MuiPickersUtilsProvider>
+          </AppProvider>
+        </AuthProvider>
+      </CookiesProvider>
+    </Switch>
+  </Router>,
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
